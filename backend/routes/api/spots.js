@@ -17,18 +17,22 @@ router.get('/', async (req, res, next) => {
         ]
     })
 
+
+
     const allSpots = [];
     spots.forEach(spot => {
         let total = 0;
         const jsonspot = spot.toJSON()
+
         jsonspot.Reviews.forEach(ele => {
             total += ele.stars
         })
+        const avg = total / jsonspot.Reviews.length
+        jsonspot.avgRating = avg
+
         jsonspot.SpotImages.forEach(ele => {
             jsonspot.previewImage = ele.url
         })
-        const avg = total / jsonspot.Reviews.length
-        jsonspot.avgRating = avg
 
         delete jsonspot.Reviews
         delete jsonspot.SpotImages
