@@ -13,8 +13,20 @@ router.get('/', async (req, res, next) => {
     page = parseInt(page);
     size = parseInt(size);
 
-    if (!page || page <= 0 || page > 10) page = 1;
-    if (!size || size <= 0 || size > 20) size = 20;
+    if (!Number.isInteger(page) || page > 10) page = 1;
+    if (!Number.isInteger(size) || size > 20) size = 20;
+    if (page <= 0 || size <= 0) {
+        res.status(400)
+
+        console.log('hi')
+        return res.json({
+            message: "Bad Request",
+            errors: {
+                page: "Page must be greater than or equal to 1",
+                size: "Size must be greater than or equal to 1",
+            }
+        })
+    }
 
     let pagination = {}
 
@@ -63,6 +75,10 @@ router.get('/', async (req, res, next) => {
     res.json({ Spots: allSpots, page, size })
 })
 
+
+router.get('/current', requireAuth, async (req, res, next) => {
+
+})
 
 
 module.exports = router
