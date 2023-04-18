@@ -7,6 +7,24 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { Spot, User, Review, Booking, SpotImage, ReviewImage } = require('../../db/models')
 
 router.get('/', async (req, res, next) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (!page || page <= 0 || page > 10) page = 1;
+    if (!size || size <= 0 || size > 20) size = 20;
+
+    let pagination = {}
+
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
+    }
+
+
+
     const spots = await Spot.findAll({
         include: [{
             model: Review
@@ -14,7 +32,8 @@ router.get('/', async (req, res, next) => {
         {
             model: SpotImage
         }
-        ]
+        ],
+        ...pagination
     })
 
 
@@ -41,7 +60,7 @@ router.get('/', async (req, res, next) => {
 
 
 
-    res.json({ Spots: allSpots })
+    res.json({ Spots: allSpots, page, size })
 })
 
 
