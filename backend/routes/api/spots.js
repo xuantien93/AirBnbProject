@@ -24,11 +24,18 @@ router.get('/', async (req, res, next) => {
     if (maxLat) {
         where.lat = { [Op.lte]: maxLat }
     }
+
+    if (maxLat && minLat) {
+        where.lat = { [Op.between]: [minLat, maxLat] }
+    }
     if (minLng) {
         where.lng = { [Op.gte]: minLng }
     }
     if (maxLng) {
         where.lng = { [Op.lte]: maxLng }
+    }
+    if (minLng && maxLng) {
+        where.lng = { [Op.between]: [minLng, maxLng] }
     }
     if (minPrice && minPrice >= 0) {
         where.price = { [Op.gte]: minPrice }
@@ -36,36 +43,26 @@ router.get('/', async (req, res, next) => {
     if (maxPrice && maxPrice >= 0) {
         where.price = { [Op.lte]: maxPrice }
     }
-    if (minLat && maxLat && minLat > maxLat) {
-
-        res.status(400);
-        return res.json({
-            message: "Bad Request",
-            errors: {
-                maxLat: "Maximum latitude must be greater than minimum latitude"
-            }
-        });
+    if (minPrice && maxPrice) {
+        where.price = { [Op.between]: [minPrice, maxPrice] }
     }
-    if (minLng && maxLng && minLng > maxLng) {
 
-        res.status(400);
-        return res.json({
-            message: "Bad Request",
-            errors: {
-                maxLng: "Maximum longitude must be greater than minimum longitude"
-            }
-        });
-    }
-    if (minPrice && maxPrice && minPrice > maxPrice) {
+    let err = {}
+    if (minLat && (minLat > 90 || minLat < -90)) err.minLat = "Minimum latitude is invalid"
+    if (maxLat && (maxLat > 90 || maxLat < -90)) err.maxLat = "Maximum latitude is invalid"
+    if (minLng && (minLng > 180 || minLng < -180)) err.minLng = "Minimum longitude is invalid"
+    if (maxLng && (maxLng > 180 || maxLng < -180)) err.minLng = "Maximum longitude is invalid"
+    if (minPrice && minPrice < 0) err.minPrice = "Minimum price must be greater than or equal to 0"
+    if (maxPrice && maxPrice < 0) err.maxPrice = "Maximum price must be greater than or equal to 0"
 
-        res.status(400);
+    if (Object.keys(err).length) {
+        res.status(400)
         return res.json({
-            message: "Bad Request",
-            errors: {
-                maxPrice: "Maximum price must be greater than minimum price"
-            }
-        });
+            message: 'Bad Request',
+            errors: err
+        })
     }
+
 
     if (!Number.isInteger(page) || page > 10) page = 1;
     if (!Number.isInteger(size) || size > 20) size = 20;
