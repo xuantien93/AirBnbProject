@@ -212,4 +212,36 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
+router.post('/', requireAuth, async (req, res, next) => {
+
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
+
+    let err = {}
+
+    if (!address) err.address = "Street address is required"
+    if (!city) err.city = "City is required"
+    if (!country) err.country = "Country is required"
+    if (!state) err.state = "State is required"
+    if (!lat) err.lat = "Latitude is not valid"
+    if (!lng) err.lng = "Longitude is not valid"
+    if (name && name.length > 50) err.name = "Name must be less than 50 characters"
+    if (!description) err.description = "Description is required"
+    if (!price) err.price = "Price per day is required"
+
+    if (Object.keys(err).length) {
+        res.status(400)
+        return res.json({
+            message: "Bad Request",
+            errors: err
+        })
+    }
+
+    const newspot = await Spot.create({
+        address, city, state, country, lat, lng, name, description, price
+    })
+
+    res.status(201)
+    res.json(newspot)
+})
+
 module.exports = router
