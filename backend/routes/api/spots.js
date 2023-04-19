@@ -283,6 +283,71 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
+
+
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON()
+    const { review, stars } = req.body
+    const spot = await Spot.findOne({
+        where: {
+            id: req.params.spotId
+        },
+        include: [
+            {
+                model: Review
+            }
+        ]
+    })
+
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
+
+    const err = {}
+
+    if (!review) err.review = "Review text is required"
+    if (!stars) err.stars = "Stars rating is required"
+    if (stars && (stars < 1 || stars > 5)) err.stars = "Stars must be an integer from 1 to 5"
+    if (Object.keys(err).length) {
+        res.status(400)
+        return res.json({
+            message: "Bad Request",
+            errors: err
+        })
+    }
+
+    // const jsonspot = spot.toJSON()
+    // console.log(jsonspot)
+
+    const existingReview = await Review.findOne({
+        where: {
+            userId: jsonuser.id,
+            spotId: spot.id
+        }
+    });
+
+
+    if (existingReview) {
+        res.status(500)
+        return res.json({
+            message: "User already has a review for this spot"
+        })
+    }
+
+    const newReview = await Review.create({
+        userId: jsonuser.id, spotId: spot.id,
+        review, stars
+    })
+    res.json(newReview)
+
+})
+
+
 router.post('/', requireAuth, async (req, res, next) => {
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body
@@ -315,6 +380,9 @@ router.post('/', requireAuth, async (req, res, next) => {
     res.status(201)
     res.json(newspot)
 })
+
+
+
 
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const user = req.user
