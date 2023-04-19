@@ -75,7 +75,49 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 })
 
-router.post('/:reviewId/images',requireAuth,async(req,res,next)=>{
+router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
+
+    const user = req.user
+    const jsonuser = user.toJSON()
+    const { url } = req.body
+
+    const review = await Review.findOne({
+        where: {
+            id: req.params.reviewId
+        },
+        include: {
+            model: ReviewImage
+        }
+    })
+
+    if (!review) {
+        res.status(404)
+        return res.json({
+            message: "Review couldn't be found"
+        })
+    }
+    if (review.userId !== jsonuser.id) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+    const imageList = review.toJSON()
+    console.log(imageList)
+    if (imageList.ReviewImages.length > 10) {
+        res.status(403)
+        return res.json({
+            message: "Maximum number of images for this resource was reached"
+        })
+    }
+    const newImage = await review.createReviewImage({
+        url: url
+    })
+
+    res.json({
+        id: newImage.id,
+        url: newImage.url
+    })
 
 })
 

@@ -285,18 +285,18 @@ router.get('/:spotId', async (req, res, next) => {
 
 
 
-router.post('/:spotId/reviews', requireAuth, async (req,res,next)=>{
+router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
     const user = req.user
     const jsonuser = user.toJSON()
-    const {review,stars} = req.body
+    const { review, stars } = req.body
     const spot = await Spot.findOne({
-        where:{
-            id:req.params.spotId
+        where: {
+            id: req.params.spotId
         },
-        include:[
-           {
-            model:Review
-           }
+        include: [
+            {
+                model: Review
+            }
         ]
     })
 
@@ -308,42 +308,42 @@ router.post('/:spotId/reviews', requireAuth, async (req,res,next)=>{
         })
     }
 
-const err = {}
+    const err = {}
 
-if(!review) err.review = "Review text is required"
-if(!stars) err.stars = "Stars rating is required"
-if(stars && (stars < 1 || stars > 5)) err.stars = "Stars must be an integer from 1 to 5"
-if (Object.keys(err).length) {
-    res.status(400)
-    return res.json({
-        message: "Bad Request",
-        errors: err
-    })
-}
-
-// const jsonspot = spot.toJSON()
-// console.log(jsonspot)
-
-const existingReview = await Review.findOne({
-    where: {
-        userId: jsonuser.id,
-        spotId: spot.id
+    if (!review) err.review = "Review text is required"
+    if (!stars) err.stars = "Stars rating is required"
+    if (stars && (stars < 1 || stars > 5)) err.stars = "Stars must be an integer from 1 to 5"
+    if (Object.keys(err).length) {
+        res.status(400)
+        return res.json({
+            message: "Bad Request",
+            errors: err
+        })
     }
-});
+
+    // const jsonspot = spot.toJSON()
+    // console.log(jsonspot)
+
+    const existingReview = await Review.findOne({
+        where: {
+            userId: jsonuser.id,
+            spotId: spot.id
+        }
+    });
 
 
-    if(existingReview){
+    if (existingReview) {
         res.status(500)
         return res.json({
             message: "User already has a review for this spot"
         })
     }
 
-const newReview = await Review.create({
-    userId:jsonuser.id,spotId:spot.id,
-    review,stars
-})
-res.json(newReview)
+    const newReview = await Review.create({
+        userId: jsonuser.id, spotId: spot.id,
+        review, stars
+    })
+    res.json(newReview)
 
 })
 
