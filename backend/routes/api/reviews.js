@@ -75,5 +75,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 })
 
+router.post('/:reviewId/images',requireAuth,async(req,res,next)=>{
+
+})
+
 
 module.exports = router
