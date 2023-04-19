@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         hooks: true
       })
 
-      Spot.belongsTo(models.User, { foreignKey: 'ownerId' })
+      Spot.belongsTo(models.User, { foreignKey: 'ownerId', as: "Owner" })
 
     }
   }
@@ -37,37 +37,43 @@ module.exports = (sequelize, DataTypes) => {
     ownerId: DataTypes.INTEGER,
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     state: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     country: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     lat: {
       type: DataTypes.DECIMAL,
       validate: {
         min: -90,
-        max: 90
+        max: 90,
+
       }
     },
     lng: {
       type: DataTypes.DECIMAL,
       validate: {
         min: -180,
-        max: 180
+        max: 180,
+
       }
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: [1, 49]
+
+      }
     },
     description: {
       type: DataTypes.STRING,
