@@ -9,94 +9,220 @@ module.exports = {
     options.tableName = 'Bookings'
     await queryInterface.bulkInsert(options, [
       {
-        spotId: 1,
-        userId: 1,
-        startDate: "02-15-2021",
-        endDate: "02-17-2021"
+        spotId: 6,
+        userId: 3,
+        startDate: new Date("2022-01-01"),
+        endDate: new Date("2022-01-04")
       },
       {
-        spotId: 1,
-        userId: 1,
-        startDate: "05-19-2021",
-        endDate: "05-22-2021"
-      },
-      {
-        spotId: 1,
-        userId: 1,
-        startDate: "08-08-2019",
-        endDate: "08-10-2019"
-      },
-      {
-        spotId: 2,
-        userId: 2,
-        startDate: "01-05-2021",
-        endDate: "01-10-2021"
-      },
-      {
-        spotId: 2,
-        userId: 2,
-        startDate: "04-22-2021",
-        endDate: "04-25-2021"
-      },
-      {
-        spotId: 2,
-        userId: 2,
-        startDate: "02-15-2022",
-        endDate: "02-17-2022"
+        spotId: 10,
+        userId: 4,
+        startDate: new Date("2022-04-20"),
+        endDate: new Date("2022-04-22")
       },
       {
         spotId: 3,
+        userId: 5,
+        startDate: new Date("2021-06-15"),
+        endDate: new Date("2021-06-18")
+      },
+      {
+        spotId: 11,
+        userId: 2,
+        startDate: new Date("2023-02-05"),
+        endDate: new Date("2023-02-07")
+      },
+      {
+        spotId: 13,
+        userId: 1,
+        startDate: new Date("2022-08-01"),
+        endDate: new Date("2022-08-04")
+      },
+      {
+        spotId: 8,
         userId: 3,
-        startDate: "03-20-2022",
-        endDate: "03-25-2022"
+        startDate: new Date("2023-03-10"),
+        endDate: new Date("2023-03-12")
       },
       {
-        spotId: 3,
-        userId: 3,
-        startDate: "07-04-2022",
-        endDate: "07-06-2022"
-      },
-      {
-        spotId: 3,
-        userId: 3,
-        startDate: "09-02-2022",
-        endDate: "09-05-2022"
-      },
-      {
-        spotId: 4,
+        spotId: 2,
         userId: 4,
-        startDate: "03-01-2021",
-        endDate: "03-03-2021"
-      },
-      {
-        spotId: 4,
-        userId: 4,
-        startDate: "01-07-2019",
-        endDate: "01-10-2019"
-      },
-      {
-        spotId: 4,
-        userId: 4,
-        startDate: "10-02-2021",
-        endDate: "10-06-2021"
+        startDate: new Date("2021-11-24"),
+        endDate: new Date("2021-11-26")
       },
       {
         spotId: 5,
         userId: 5,
-        startDate: "02-15-2023",
-        endDate: "02-17-2023"
+        startDate: new Date("2022-05-12"),
+        endDate: new Date("2022-05-15")
+      },
+      {
+        spotId: 1,
+        userId: 1,
+        startDate: new Date("2023-07-22"),
+        endDate: new Date("2023-07-24")
+      },
+      {
+        spotId: 14,
+        userId: 2,
+        startDate: new Date("2022-02-28"),
+        endDate: new Date("2022-03-02")
+      },
+      {
+        spotId: 7,
+        userId: 3,
+        startDate: new Date("2021-12-05"),
+        endDate: new Date("2021-12-08")
+      },
+      {
+        spotId: 9,
+        userId: 4,
+        startDate: new Date("2023-01-14"),
+        endDate: new Date("2023-01-16")
+      },
+      {
+        spotId: 15,
+        userId: 5,
+        startDate: new Date("2022-06-03"),
+        endDate: new Date("2022-06-05")
+      },
+      {
+        spotId: 4,
+        userId: 1,
+        startDate: new Date("2023-04-11"),
+        endDate: new Date("2023-04-13")
+      },
+      {
+        spotId: 6,
+        userId: 2,
+        startDate: new Date("2022-03-18"),
+        endDate: new Date("2022-03-21")
+      },
+      {
+        spotId: 10,
+        userId: 3,
+        startDate: new Date("2021-09-02"),
+        endDate: new Date("2021-09-04")
+      },
+      {
+        spotId: 3,
+        userId: 4,
+        startDate: new Date("2022-10-08"),
+        endDate: new Date("2022-10-10")
+      },
+      {
+        spotId: 11,
+        userId: 5,
+        startDate: new Date("2021-08-19"),
+        endDate: new Date("2021-08-22")
+      },
+      {
+        spotId: 9,
+        userId: 2,
+        startDate: new Date("2019-10-23"),
+        endDate: new Date("2019-10-26")
+      },
+      {
+        spotId: 15,
+        userId: 3,
+        startDate: new Date("2022-09-01"),
+        endDate: new Date("2022-09-03")
+      },
+      {
+        spotId: 2,
+        userId: 4,
+        startDate: new Date("2023-01-22"),
+        endDate: new Date("2023-01-24")
       },
       {
         spotId: 5,
         userId: 5,
-        startDate: "04-20-2023",
-        endDate: "04-22-2023"
+        startDate: new Date("2022-07-07"),
+        endDate: new Date("2022-07-10")
       },
       {
-        spotId: 5,
+        spotId: 1,
+        userId: 1,
+        startDate: new Date("2021-12-28"),
+        endDate: new Date("2021-12-31")
+      },
+      {
+        spotId: 14,
+        userId: 2,
+        startDate: new Date("2023-02-22"),
+        endDate: new Date("2023-02-24")
+      },
+      {
+        spotId: 7,
+        userId: 3,
+        startDate: new Date("2019-05-01"),
+        endDate: new Date("2019-05-04")
+      },
+      {
+        spotId: 11,
+        userId: 4,
+        startDate: new Date("2021-07-10"),
+        endDate: new Date("2021-07-12")
+      },
+      {
+        spotId: 15,
         userId: 5,
-        startDate: "05-28-2023",
-        endDate: "05-30-2023"
+        startDate: new Date("2022-03-30"),
+        endDate: new Date("2022-04-02")
+      },
+      {
+        spotId: 4,
+        userId: 1,
+        startDate: new Date("2023-01-08"),
+        endDate: new Date("2023-01-10")
+      },
+      {
+        spotId: 6,
+        userId: 2,
+        startDate: new Date("2021-11-11"),
+        endDate: new Date("2021-11-14")
+      },
+      {
+        spotId: 10,
+        userId: 3,
+        startDate: new Date("2022-08-11"),
+        endDate: new Date("2022-08-13")
+      },
+      {
+        spotId: 3,
+        userId: 4,
+        startDate: new Date("2022-04-09"),
+        endDate: new Date("2022-04-12")
+      },
+      {
+        spotId: 11,
+        userId: 5,
+        startDate: new Date("2021-12-10"),
+        endDate: new Date("2021-12-13")
+      },
+      {
+        spotId: 13,
+        userId: 1,
+        startDate: new Date("2022-05-22"),
+        endDate: new Date("2022-05-24")
+      },
+      {
+        spotId: 8,
+        userId: 2,
+        startDate: new Date("2023-03-01"),
+        endDate: new Date("2023-03-03")
+      },
+      {
+        spotId: 2,
+        userId: 3,
+        startDate: new Date("2019-11-03"),
+        endDate: new Date("2019-11-06")
+      },
+      {
+        spotId: 7,
+        userId: 4,
+        startDate: new Date("2022-01-15"),
+        endDate: new Date("2022-01-18")
       }
     ], {})
   },

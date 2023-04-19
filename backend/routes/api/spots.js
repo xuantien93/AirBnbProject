@@ -243,6 +243,59 @@ router.get('/:spotId/reviews', requireAuth, async (req, res, next) => {
 
 })
 
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON()
+
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
+
+
+    const bookings = await Booking.findAll({
+        where: {
+            spotId: spot.id
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            }
+        ]
+    })
+
+    const bookList = []
+
+    bookings.forEach(booking => {
+        bookList.push(booking.toJSON())
+    })
+
+    bookList.forEach(ele => {
+        if (ele.userId !== jsonuser.id) {
+            delete ele.id
+            delete ele.User
+            delete ele.createdAt
+            delete ele.updatedAt
+            delete ele.userId
+            delete ele.Spot
+        }
+    })
+
+
+
+
+    res.json({
+        Bookings: bookList
+    })
+
+
+})
+
 router.get('/:spotId', async (req, res, next) => {
     const spotId = await Spot.findByPk(req.params.spotId)
     if (spotId) {
