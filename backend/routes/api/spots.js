@@ -10,59 +10,98 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     page = parseInt(page);
     size = parseInt(size);
-    minLat = parseInt(minLat);
-    maxLat = parseInt(maxLat);
-    minLng = parseInt(minLng);
-    maxLng = parseInt(maxLng);
-    minPrice = parseInt(minPrice);
-    maxPrice = parseInt(maxPrice);
 
     const where = {};
-    if (minLat) {
-        where.lat = { [Op.gte]: minLat }
-    }
-    if (maxLat) {
-        where.lat = { [Op.lte]: maxLat }
+    let err = {};
+
+    if (typeof minLat === 'string') {
+        minLat = parseInt(minLat);
     }
 
-    if (maxLat && minLat) {
+    if (typeof maxLat === 'string') {
+        maxLat = parseInt(maxLat);
+    }
+
+    if (typeof minLng === 'string') {
+        minLng = parseInt(minLng);
+    }
+
+    if (typeof maxLng === 'string') {
+        maxLng = parseInt(maxLng);
+    }
+
+    if (typeof minPrice === 'string') {
+        minPrice = parseInt(minPrice);
+    }
+
+    if (typeof maxPrice === 'string') {
+        maxPrice = parseInt(maxPrice);
+    }
+
+    if (minLat !== undefined && (isNaN(minLat) || minLat < -90 || minLat > 90)) {
+        err.minLat = "Minimum latitude is invalid";
+    }
+
+    if (maxLat !== undefined && (isNaN(maxLat) || maxLat < -90 || maxLat > 90)) {
+        err.maxLat = "Maximum latitude is invalid";
+    }
+
+    if (minLng !== undefined && (isNaN(minLng) || minLng < -180 || minLng > 180)) {
+        err.minLng = "Minimum longitude is invalid";
+    }
+
+    if (maxLng !== undefined && (isNaN(maxLng) || maxLng < -180 || maxLng > 180)) {
+        err.maxLng = "Maximum longitude is invalid";
+    }
+
+    if (minPrice !== undefined && (isNaN(minPrice) || minPrice < 0)) {
+        err.minPrice = "Minimum price must be greater than or equal to 0";
+    }
+
+    if (maxPrice !== undefined && (isNaN(maxPrice) || maxPrice < 0)) {
+        err.maxPrice = "Maximum price must be greater than or equal to 0";
+    }
+
+    if (Object.keys(err).length) {
+        res.status(400);
+        return res.json({
+            message: 'Bad Request',
+            errors: err
+        });
+    }
+
+
+    if (minLat && maxLat) {
         where.lat = { [Op.between]: [minLat, maxLat] }
+    } else if (minLat) {
+        where.lat = { [Op.gte]: minLat }
+    } else if (maxLat) {
+        where.lat = { [Op.lte]: maxLat };
     }
-    if (minLng) {
-        where.lng = { [Op.gte]: minLng }
-    }
-    if (maxLng) {
-        where.lng = { [Op.lte]: maxLng }
-    }
+
+
     if (minLng && maxLng) {
         where.lng = { [Op.between]: [minLng, maxLng] }
+    } else if (minLng) {
+        where.lng = { [Op.gte]: minLng }
+    } else if (maxLng) {
+        where.lng = { [Op.lte]: maxLng };
     }
+
     if (minPrice && minPrice >= 0) {
         where.price = { [Op.gte]: minPrice }
     }
     if (maxPrice && maxPrice >= 0) {
-        where.price = { [Op.lte]: maxPrice }
+        if (where.price) {
+            where.price[Op.lte] = maxPrice;
+        } else {
+            where.price = { [Op.lte]: maxPrice };
+        }
     }
+
     if (minPrice && maxPrice) {
         where.price = { [Op.between]: [minPrice, maxPrice] }
     }
-
-    let err = {}
-    if (minLat && (minLat > 90 || minLat < -90)) err.minLat = "Minimum latitude is invalid"
-    if (maxLat && (maxLat > 90 || maxLat < -90)) err.maxLat = "Maximum latitude is invalid"
-    if (minLng && (minLng > 180 || minLng < -180)) err.minLng = "Minimum longitude is invalid"
-    if (maxLng && (maxLng > 180 || maxLng < -180)) err.minLng = "Maximum longitude is invalid"
-    if (minPrice && minPrice < 0) err.minPrice = "Minimum price must be greater than or equal to 0"
-    if (maxPrice && maxPrice < 0) err.maxPrice = "Maximum price must be greater than or equal to 0"
-
-    if (Object.keys(err).length) {
-        res.status(400)
-        return res.json({
-            message: 'Bad Request',
-            errors: err
-        })
-    }
-
 
     if (!Number.isInteger(page) || page > 10) page = 1;
     if (!Number.isInteger(size) || size > 20) size = 20;
