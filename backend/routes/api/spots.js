@@ -237,11 +237,126 @@ router.post('/', requireAuth, async (req, res, next) => {
     }
 
     const newspot = await Spot.create({
+        ownerId: req.user.id,
         address, city, state, country, lat, lng, name, description, price
     })
 
     res.status(201)
     res.json(newspot)
 })
+
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON() // 4
+    const { url, preview } = req.body
+
+    const spot = await Spot.findOne({
+        where: {
+            id: req.params.spotId
+        }
+    })
+    // const jsonspot = spot.toJSON() // 10
+    if (!spot || spot.ownerId !== jsonuser.id) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    } else {
+        const image = await SpotImage.create({
+            url, preview
+        })
+
+        res.json({
+            id: image.id,
+            url: image.url,
+            preview: image.preview
+        })
+    }
+
+})
+
+router.put('/:spotId', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON()
+    let { address, city, state, country, lat, lng, name, description, price } = req.body
+    const spot = await Spot.findByPk(req.params.spotId)
+    // const jsonspot = spot.toJSON()
+    // console.log(jsonspot)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
+    if (spot.ownerId !== jsonuser.id) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+
+    let err = {}
+
+    if (!address) err.address = "Street address is required"
+    if (!city) err.city = "City is required"
+    if (!country) err.country = "Country is required"
+    if (!state) err.state = "State is required"
+    if (!lat) err.lat = "Latitude is not valid"
+    if (!lng) err.lng = "Longitude is not valid"
+    if (name && name.length > 50) err.name = "Name must be less than 50 characters"
+    if (!description) err.description = "Description is required"
+    if (!price) err.price = "Price per day is required"
+
+    if (Object.keys(err).length) {
+        res.status(400)
+        return res.json({
+            message: "Bad Request",
+            errors: err
+        })
+    }
+
+    if (address) spot.address = address
+    if (city) spot.city = city
+    if (state) spot.state = state
+    if (country) spot.country = country
+    if (lat) spot.lat = lat
+    if (lng) spot.lng = lng
+    if (name) spot.name = name
+    if (description) spot.description = description
+    if (price) spot.price = price
+
+    await spot.save()
+    res.json(spot)
+
+
+})
+
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+
+    const user = req.user
+    const jsonuser = user.toJSON()
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
+    if (spot.ownerId !== jsonuser.id) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+    await spot.destroy()
+    res.json({
+        message: "Succesfully deleted"
+    })
+
+})
+
+
 
 module.exports = router
