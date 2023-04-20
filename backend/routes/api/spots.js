@@ -609,7 +609,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const jsonuser = user.toJSON()
     const spot = await Spot.findByPk(req.params.spotId)
 
-    if (!spot || spot.ownerId !== user.id) {
+    if (!spot) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
