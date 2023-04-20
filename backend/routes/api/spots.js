@@ -120,7 +120,7 @@ router.get('/', async (req, res, next) => {
         err.minLat = "Minimum latitude is invalid";
     }
 
-    if (maxLat > 90 || minLat < -90) {
+    if (maxLat > 90 || maxLat < -90) {
         err.maxLat = "Maximum latitude is invalid";
     }
 
