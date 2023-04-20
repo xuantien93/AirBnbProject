@@ -10,66 +10,23 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     page = parseInt(page);
     size = parseInt(size);
+    minLat = parseInt(minLat)
+    maxLat = parseInt(maxLat)
+    minLng = parseInt(minLng)
+    maxLng = parseInt(maxLng)
+    minPrice = parseInt(minPrice)
+    maxPrice = parseInt(maxPrice)
 
     const where = {};
     let err = {};
 
-    if (typeof minLat === 'string') {
-        minLat = parseInt(minLat);
+    if (minlat) {
+        where.minLat = minLat
     }
 
-    if (typeof maxLat === 'string') {
-        maxLat = parseInt(maxLat);
+    if (maxLat) {
+        where.maxLat = maxLat
     }
-
-    if (typeof minLng === 'string') {
-        minLng = parseInt(minLng);
-    }
-
-    if (typeof maxLng === 'string') {
-        maxLng = parseInt(maxLng);
-    }
-
-    if (typeof minPrice === 'string') {
-        minPrice = parseInt(minPrice);
-    }
-
-    if (typeof maxPrice === 'string') {
-        maxPrice = parseInt(maxPrice);
-    }
-
-    if (minLat !== undefined && (isNaN(minLat) || minLat < -90 || minLat > 90)) {
-        err.minLat = "Minimum latitude is invalid";
-    }
-
-    if (maxLat !== undefined && (isNaN(maxLat) || maxLat < -90 || maxLat > 90)) {
-        err.maxLat = "Maximum latitude is invalid";
-    }
-
-    if (minLng !== undefined && (isNaN(minLng) || minLng < -180 || minLng > 180)) {
-        err.minLng = "Minimum longitude is invalid";
-    }
-
-    if (maxLng !== undefined && (isNaN(maxLng) || maxLng < -180 || maxLng > 180)) {
-        err.maxLng = "Maximum longitude is invalid";
-    }
-
-    if (minPrice !== undefined && (isNaN(minPrice) || minPrice < 0)) {
-        err.minPrice = "Minimum price must be greater than or equal to 0";
-    }
-
-    if (maxPrice !== undefined && (isNaN(maxPrice) || maxPrice < 0)) {
-        err.maxPrice = "Maximum price must be greater than or equal to 0";
-    }
-
-    if (Object.keys(err).length) {
-        res.status(400);
-        return res.json({
-            message: 'Bad Request',
-            errors: err
-        });
-    }
-
 
     if (minLat && maxLat) {
         where.lat = { [Op.between]: [minLat, maxLat] }
@@ -79,6 +36,13 @@ router.get('/', async (req, res, next) => {
         where.lat = { [Op.lte]: maxLat };
     }
 
+    if (minLng) {
+        where.minLng = minLng
+    }
+
+    if (maxLng) {
+        where.maxLng = maxLng
+    }
 
     if (minLng && maxLng) {
         where.lng = { [Op.between]: [minLng, maxLng] }
@@ -86,6 +50,14 @@ router.get('/', async (req, res, next) => {
         where.lng = { [Op.gte]: minLng }
     } else if (maxLng) {
         where.lng = { [Op.lte]: maxLng };
+    }
+
+    if (minPrice) {
+        where.minPrice = minPrice
+    }
+
+    if (maxPrice) {
+        where.maxPrice = maxPrice
     }
 
     if (minPrice && minPrice >= 0) {
@@ -103,68 +75,102 @@ router.get('/', async (req, res, next) => {
         where.price = { [Op.between]: [minPrice, maxPrice] }
     }
 
-    if (!Number.isInteger(page) || page > 10) page = 1;
-    if (!Number.isInteger(size) || size > 20) size = 20;
-    if (page <= 0 || size <= 0) {
-        res.status(400)
-        return res.json({
-            message: "Bad Request",
-            errors: {
-                page: "Page must be greater than or equal to 1",
-                size: "Size must be greater than or equal to 1",
-            }
-        })
+    if (minLat && (minLat < -90 || minLat > 90)) {
+        err.minLat = "Minimum latitude is invalid";
     }
 
-    let pagination = {}
-
-    if (page >= 1 && size >= 1) {
-        pagination.limit = size;
-        pagination.offset = size * (page - 1);
+    if (maxLat && (maxLat < -90 || maxLat > 90)) {
+        err.maxLat = "Maximum latitude is invalid";
     }
 
+    if (minLng && (minLng < -180 || minLng > 180)) {
+        err.minLng = "Minimum longitude is invalid";
+    }
+
+    if (maxLng && (maxLng maxLng < -180 || maxLng > 180)) {
+    err.maxLng = "Maximum longitude is invalid";
+}
+
+if (minPrice && (minPrice || minPrice < 0)) {
+    err.minPrice = "Minimum price must be greater than or equal to 0";
+}
+
+if (maxPrice && (maxPrice || maxPrice < 0)) {
+    err.maxPrice = "Maximum price must be greater than or equal to 0";
+}
+
+if (Object.keys(err).length) {
+    res.status(400);
+    return res.json({
+        message: 'Bad Request',
+        errors: err
+    });
+}
 
 
-    const spots = await Spot.findAll({
-        where,
-        include: [{
-            model: Review
-        },
-        {
-            model: SpotImage
+
+if (!Number.isInteger(page) || page > 10) page = 1;
+if (!Number.isInteger(size) || size > 20) size = 20;
+if (page <= 0 || size <= 0) {
+    res.status(400)
+    return res.json({
+        message: "Bad Request",
+        errors: {
+            page: "Page must be greater than or equal to 1",
+            size: "Size must be greater than or equal to 1",
         }
-        ],
-        ...pagination
+    })
+}
+
+let pagination = {}
+
+if (page >= 1 && size >= 1) {
+    pagination.limit = size;
+    pagination.offset = size * (page - 1);
+}
+
+
+
+const spots = await Spot.findAll({
+    where,
+    include: [{
+        model: Review
+    },
+    {
+        model: SpotImage
+    }
+    ],
+    ...pagination
+})
+
+
+
+const allSpots = [];
+spots.forEach(spot => {
+    let total = 0;
+    const jsonspot = spot.toJSON()
+
+    jsonspot.Reviews.forEach(ele => {
+        total += ele.stars
+    })
+    const avg = total / jsonspot.Reviews.length
+    jsonspot.avgRating = avg
+
+    jsonspot.SpotImages.forEach(ele => {
+        if (ele.preview === true) {
+            jsonspot.previewImage = ele.url
+        }
+        // condition true
     })
 
-
-
-    const allSpots = [];
-    spots.forEach(spot => {
-        let total = 0;
-        const jsonspot = spot.toJSON()
-
-        jsonspot.Reviews.forEach(ele => {
-            total += ele.stars
-        })
-        const avg = total / jsonspot.Reviews.length
-        jsonspot.avgRating = avg
-
-        jsonspot.SpotImages.forEach(ele => {
-            if (ele.preview === true) {
-                jsonspot.previewImage = ele.url
-            }
-            // condition true
-        })
-
-        delete jsonspot.Reviews
-        delete jsonspot.SpotImages
-        allSpots.push(jsonspot)
-    })
+    delete jsonspot.Reviews
+    delete jsonspot.SpotImages
+    allSpots.push(jsonspot)
+})
 
 
 
-    res.json({ Spots: allSpots, page, size })
+res.json({ Spots: allSpots, page, size })
 })
 
 
