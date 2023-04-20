@@ -87,90 +87,90 @@ router.get('/', async (req, res, next) => {
         err.minLng = "Minimum longitude is invalid";
     }
 
-    if (maxLng && (maxLng maxLng < -180 || maxLng > 180)) {
-    err.maxLng = "Maximum longitude is invalid";
-}
-
-if (minPrice && (minPrice || minPrice < 0)) {
-    err.minPrice = "Minimum price must be greater than or equal to 0";
-}
-
-if (maxPrice && (maxPrice || maxPrice < 0)) {
-    err.maxPrice = "Maximum price must be greater than or equal to 0";
-}
-
-if (Object.keys(err).length) {
-    res.status(400);
-    return res.json({
-        message: 'Bad Request',
-        errors: err
-    });
-}
-
-
-
-if (!Number.isInteger(page) || page > 10) page = 1;
-if (!Number.isInteger(size) || size > 20) size = 20;
-if (page <= 0 || size <= 0) {
-    res.status(400)
-    return res.json({
-        message: "Bad Request",
-        errors: {
-            page: "Page must be greater than or equal to 1",
-            size: "Size must be greater than or equal to 1",
-        }
-    })
-}
-
-let pagination = {}
-
-if (page >= 1 && size >= 1) {
-    pagination.limit = size;
-    pagination.offset = size * (page - 1);
-}
-
-
-
-const spots = await Spot.findAll({
-    where,
-    include: [{
-        model: Review
-    },
-    {
-        model: SpotImage
+    if (maxLng && (maxLng < -180 || maxLng > 180)) {
+        err.maxLng = "Maximum longitude is invalid";
     }
-    ],
-    ...pagination
-})
+
+    if (minPrice && (minPrice || minPrice < 0)) {
+        err.minPrice = "Minimum price must be greater than or equal to 0";
+    }
+
+    if (maxPrice && (maxPrice || maxPrice < 0)) {
+        err.maxPrice = "Maximum price must be greater than or equal to 0";
+    }
+
+    if (Object.keys(err).length) {
+        res.status(400);
+        return res.json({
+            message: 'Bad Request',
+            errors: err
+        });
+    }
 
 
 
-const allSpots = [];
-spots.forEach(spot => {
-    let total = 0;
-    const jsonspot = spot.toJSON()
+    if (!Number.isInteger(page) || page > 10) page = 1;
+    if (!Number.isInteger(size) || size > 20) size = 20;
+    if (page <= 0 || size <= 0) {
+        res.status(400)
+        return res.json({
+            message: "Bad Request",
+            errors: {
+                page: "Page must be greater than or equal to 1",
+                size: "Size must be greater than or equal to 1",
+            }
+        })
+    }
 
-    jsonspot.Reviews.forEach(ele => {
-        total += ele.stars
-    })
-    const avg = total / jsonspot.Reviews.length
-    jsonspot.avgRating = avg
+    let pagination = {}
 
-    jsonspot.SpotImages.forEach(ele => {
-        if (ele.preview === true) {
-            jsonspot.previewImage = ele.url
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
+    }
+
+
+
+    const spots = await Spot.findAll({
+        where,
+        include: [{
+            model: Review
+        },
+        {
+            model: SpotImage
         }
-        // condition true
+        ],
+        ...pagination
     })
 
-    delete jsonspot.Reviews
-    delete jsonspot.SpotImages
-    allSpots.push(jsonspot)
-})
+
+
+    const allSpots = [];
+    spots.forEach(spot => {
+        let total = 0;
+        const jsonspot = spot.toJSON()
+
+        jsonspot.Reviews.forEach(ele => {
+            total += ele.stars
+        })
+        const avg = total / jsonspot.Reviews.length
+        jsonspot.avgRating = avg
+
+        jsonspot.SpotImages.forEach(ele => {
+            if (ele.preview === true) {
+                jsonspot.previewImage = ele.url
+            }
+            // condition true
+        })
+
+        delete jsonspot.Reviews
+        delete jsonspot.SpotImages
+        allSpots.push(jsonspot)
+    })
 
 
 
-res.json({ Spots: allSpots, page, size })
+    res.json({ Spots: allSpots, page, size })
 })
 
 
