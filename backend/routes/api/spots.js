@@ -53,11 +53,20 @@ router.get('/', async (req, res, next) => {
         where.lng = { [Op.gte]: minLng };
     }
 
+    if (minLng === 0) {
+        where.lng = { [Op.gte]: minLng };
+    }
+
+
     if (page && size && minLng) {
         where.lng = { [Op.gte]: minLng };
     }
 
     if (maxLng) {
+        where.lng = { [Op.lte]: maxLng };
+    }
+
+    if (maxLng === 0) {
         where.lng = { [Op.lte]: maxLng };
     }
 
@@ -99,12 +108,12 @@ router.get('/', async (req, res, next) => {
 
     let err = {};
 
-    if (page < 1 || page > 10) {
-        err.page = "Page must be between 1 and 10";
+    if (page < 1) {
+        err.page = "Page must be greater than or equal to 1";
     }
 
-    if (size < 1 || size > 20) {
-        err.size = "Size must be between 1 and 20";
+    if (size < 1) {
+        err.size = "Size must be greater than or equal to 1";
     }
 
     if (minLat > 90 || minLat < -90) {
