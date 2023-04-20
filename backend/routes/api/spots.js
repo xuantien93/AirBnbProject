@@ -10,100 +10,100 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     page = parseInt(page) || 1
     size = parseInt(size) || 20
-    minLat = parseInt(minLat)
-    maxLat = parseInt(maxLat)
-    minLng = parseInt(minLng)
-    maxLng = parseInt(maxLng)
-    minPrice = parseInt(minPrice)
-    maxPrice = parseInt(maxPrice)
+    // minLat = parseInt(minLat)
+    // maxLat = parseInt(maxLat)
+    // minLng = parseInt(minLng)
+    // maxLng = parseInt(maxLng)
+    // minPrice = parseInt(minPrice)
+    // maxPrice = parseInt(maxPrice)
 
     let where = {};
 
 
 
     if (page && size && minLat) {
-        where.lat = { [Op.gte]: minLat };
+        where.lat = { [Op.gte]: parseInt(minLat) };
     }
 
     if (minLat) {
-        where.lat = { [Op.gte]: minLat }
+        where.lat = { [Op.gte]: parseInt(minLat) }
     }
 
     if (page && size && maxLat) {
-        where.lat = { [Op.gte]: maxLat }
+        where.lat = { [Op.gte]: parseInt(maxLat) }
     }
 
     if (maxLat) {
-        where.lat = { [Op.lte]: maxLat };
+        where.lat = { [Op.lte]: parseInt(maxLat) };
     }
 
     if (minLat && maxLat) {
-        where.lat = { [Op.between]: [minLat, maxLat] };
+        where.lat = { [Op.between]: [parseInt(minLat), parseInt(maxLat)] };
     }
 
     if (page && size && minLat && maxLat) {
-        where.lat = { [Op.between]: [minLat, maxLat] };
+        where.lat = { [Op.between]: [parseInt(minLat), parseInt(maxLat)] };
     }
 
     if (page && size && minLng) {
-        where.lng = { [Op.gte]: minLng };
+        where.lng = { [Op.gte]: parseInt(minLng) };
     }
 
     if (minLng) {
-        where.lng = { [Op.gte]: minLng };
+        where.lng = { [Op.gte]: parseInt(minLng) };
     }
 
     if (minLng === 0) {
-        where.lng = { [Op.gte]: minLng };
+        where.lng = { [Op.gte]: parseInt(minLng) };
     }
 
 
     if (page && size && minLng) {
-        where.lng = { [Op.gte]: minLng };
+        where.lng = { [Op.gte]: parseInt(minLng) };
     }
 
     if (maxLng) {
-        where.lng = { [Op.lte]: maxLng };
+        where.lng = { [Op.lte]: parseInt(maxLng) };
     }
 
     if (maxLng === 0) {
-        where.lng = { [Op.lte]: maxLng };
+        where.lng = { [Op.lte]: parseInt(maxLng) };
     }
 
     if (page && size && maxLng) {
-        where.lng = { [Op.lte]: maxLng };
+        where.lng = { [Op.lte]: parseInt(maxLng) };
     }
 
     if (minLng && maxLng) {
-        where.lng = { [Op.between]: [minLng, maxLng] };
+        where.lng = { [Op.between]: [parseInt(minLng), parseInt(maxLng)] };
     }
 
     if (page && size && minLng && maxLng) {
-        where.lng = { [Op.between]: [minLng, maxLng] };
+        where.lng = { [Op.between]: [parseInt(minLng), parseInt(maxLng)] };
     }
 
     if (minPrice >= 0) {
-        where.price = { [Op.gte]: minPrice };
+        where.price = { [Op.gte]: parseInt(minPrice) };
     }
 
     if (page && size && minPrice >= 0) {
-        where.price = { [Op.gte]: minPrice };
+        where.price = { [Op.gte]: parseInt(minPrice) };
     }
 
     if (maxPrice >= 0) {
-        where.price = { [Op.lte]: maxPrice };
+        where.price = { [Op.lte]: parseInt(maxPrice) };
     }
 
     if (page && size && maxPrice >= 0) {
-        where.price = { [Op.lte]: maxPrice };
+        where.price = { [Op.lte]: parseInt(maxPrice) };
     }
 
     if (minPrice >= 0 && maxPrice >= 0) {
-        where.price = { [Op.between]: [minPrice, maxPrice] };
+        where.price = { [Op.between]: [parseInt(minPrice), parseInt(maxPrice)] };
     }
 
     if (page && size && minPrice >= 0 && maxPrice >= 0) {
-        where.price = { [Op.between]: [minPrice, maxPrice] };
+        where.price = { [Op.between]: [parseInt(minPrice), parseInt(maxPrice)] };
     }
 
     let err = {};
@@ -140,6 +140,12 @@ router.get('/', async (req, res, next) => {
         err.maxPrice = "Maximum price must be greater than or equal to 0";
     }
 
+    if (isNaN(minLat) && minLat !== undefined) err.minLat = "Minimum latitude is invalid";
+    if (isNaN(maxLat) && maxLat !== undefined) err.maxLat = "Maximum latitude is invalid";
+    if (isNaN(minLng) && minLng !== undefined) err.minLng = "Minimum longtitude is invalid";
+    if (isNaN(maxLng) && maxLng !== undefined) err.maxLng = "Maximum longtitude is invalid";
+    if (isNaN(minPrice) && minPrice !== undefined) err.minPrice = "Mininum price is invalid";
+    if (isNaN(maxPrice) && maxPrice !== undefined) err.maxPrice = "Maximum price is invalid";
 
 
     if (Object.keys(err).length) {
