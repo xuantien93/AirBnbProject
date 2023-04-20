@@ -55,16 +55,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       validate: {
         min: -90,
-        max: 90,
-
+        max: 90
       }
     },
     lng: {
       type: DataTypes.DECIMAL,
       validate: {
         min: -180,
-        max: 180,
-
+        max: 180
       }
     },
     name: {

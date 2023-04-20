@@ -8,8 +8,8 @@ const { Spot, User, Review, Booking, SpotImage, ReviewImage } = require('../../d
 
 router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-    page = parseInt(page);
-    size = parseInt(size);
+    page = parseInt(page) || 1
+    size = parseInt(size) || 20
     minLat = parseInt(minLat)
     maxLat = parseInt(maxLat)
     minLng = parseInt(minLng)
@@ -17,87 +17,121 @@ router.get('/', async (req, res, next) => {
     minPrice = parseInt(minPrice)
     maxPrice = parseInt(maxPrice)
 
-    const where = {};
-    let err = {};
+    let where = {};
 
-    if (minlat) {
-        where.minLat = minLat
+
+
+    if (page && size && minLat) {
+        where.lat = { [Op.gte]: minLat };
+    }
+
+    if (minLat) {
+        where.lat = { [Op.gte]: minLat }
+    }
+
+    if (page && size && maxLat) {
+        where.lat = { [Op.gte]: maxLat }
     }
 
     if (maxLat) {
-        where.maxLat = maxLat
-    }
-
-    if (minLat && maxLat) {
-        where.lat = { [Op.between]: [minLat, maxLat] }
-    } else if (minLat) {
-        where.lat = { [Op.gte]: minLat }
-    } else if (maxLat) {
         where.lat = { [Op.lte]: maxLat };
     }
 
+    if (minLat && maxLat) {
+        where.lat = { [Op.between]: [minLat, maxLat] };
+    }
+
+    if (page && size && minLat && maxLat) {
+        where.lat = { [Op.between]: [minLat, maxLat] };
+    }
+
+    if (page && size && minLng) {
+        where.lng = { [Op.gte]: minLng };
+    }
+
     if (minLng) {
-        where.minLng = minLng
+        where.lng = { [Op.gte]: minLng };
+    }
+
+    if (page && size && minLng) {
+        where.lng = { [Op.gte]: minLng };
     }
 
     if (maxLng) {
-        where.maxLng = maxLng
-    }
-
-    if (minLng && maxLng) {
-        where.lng = { [Op.between]: [minLng, maxLng] }
-    } else if (minLng) {
-        where.lng = { [Op.gte]: minLng }
-    } else if (maxLng) {
         where.lng = { [Op.lte]: maxLng };
     }
 
-    if (minPrice) {
-        where.minPrice = minPrice
+    if (page && size && maxLng) {
+        where.lng = { [Op.lte]: maxLng };
     }
 
-    if (maxPrice) {
-        where.maxPrice = maxPrice
+    if (minLng && maxLng) {
+        where.lng = { [Op.between]: [minLng, maxLng] };
     }
 
-    if (minPrice && minPrice >= 0) {
-        where.price = { [Op.gte]: minPrice }
-    }
-    if (maxPrice && maxPrice >= 0) {
-        if (where.price) {
-            where.price[Op.lte] = maxPrice;
-        } else {
-            where.price = { [Op.lte]: maxPrice };
-        }
+    if (page && size && minLng && maxLng) {
+        where.lng = { [Op.between]: [minLng, maxLng] };
     }
 
-    if (minPrice && maxPrice) {
-        where.price = { [Op.between]: [minPrice, maxPrice] }
+    if (minPrice >= 0) {
+        where.price = { [Op.gte]: minPrice };
     }
 
-    if (minLat && (minLat < -90 || minLat > 90)) {
+    if (page && size && minPrice >= 0) {
+        where.price = { [Op.gte]: minPrice };
+    }
+
+    if (maxPrice >= 0) {
+        where.price = { [Op.lte]: maxPrice };
+    }
+
+    if (page && size && maxPrice >= 0) {
+        where.price = { [Op.lte]: maxPrice };
+    }
+
+    if (minPrice >= 0 && maxPrice >= 0) {
+        where.price = { [Op.between]: [minPrice, maxPrice] };
+    }
+
+    if (page && size && minPrice >= 0 && maxPrice >= 0) {
+        where.price = { [Op.between]: [minPrice, maxPrice] };
+    }
+
+    let err = {};
+
+    if (page < 1 || page > 10) {
+        err.page = "Page must be between 1 and 10";
+    }
+
+    if (size < 1 || size > 20) {
+        err.size = "Size must be between 1 and 20";
+    }
+
+    if (minLat > 90 || minLat < -90) {
         err.minLat = "Minimum latitude is invalid";
     }
 
-    if (maxLat && (maxLat < -90 || maxLat > 90)) {
+    if (maxLat > 90 || minLat < -90) {
         err.maxLat = "Maximum latitude is invalid";
     }
 
-    if (minLng && (minLng < -180 || minLng > 180)) {
+    if (minLng > 180 || minLng < -180) {
         err.minLng = "Minimum longitude is invalid";
     }
 
-    if (maxLng && (maxLng < -180 || maxLng > 180)) {
+    if (maxLng > 180 || maxLng < -180) {
         err.maxLng = "Maximum longitude is invalid";
     }
 
-    if (minPrice && (minPrice || minPrice < 0)) {
+    if (minPrice < 0) {
         err.minPrice = "Minimum price must be greater than or equal to 0";
     }
 
-    if (maxPrice && (maxPrice || maxPrice < 0)) {
+    if (maxPrice < 0) {
         err.maxPrice = "Maximum price must be greater than or equal to 0";
     }
+
+
 
     if (Object.keys(err).length) {
         res.status(400);
