@@ -480,6 +480,46 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     res.json(newBooking)
 })
 
+
+
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON() // 4
+    const { url, preview } = req.body
+
+    const spot = await Spot.findOne({
+        where: {
+            id: req.params.spotId
+        }
+    })
+    // const jsonspot = spot.toJSON() // 10
+    if (!spot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
+
+    if (spot.ownerId !== user.id) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+
+    const image = await SpotImage.create({
+        url, preview
+    })
+
+    res.json({
+        id: image.id,
+        url: image.url,
+        preview: image.preview
+    })
+
+
+})
+
 router.post('/', requireAuth, async (req, res, next) => {
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body
@@ -513,39 +553,6 @@ router.post('/', requireAuth, async (req, res, next) => {
     res.json(newspot)
 })
 
-
-
-
-router.post('/:spotId/images', requireAuth, async (req, res, next) => {
-    const user = req.user
-    const jsonuser = user.toJSON() // 4
-    const { url, preview } = req.body
-
-    const spot = await Spot.findOne({
-        where: {
-            id: req.params.spotId
-        }
-    })
-    // const jsonspot = spot.toJSON() // 10
-    if (!spot || spot.ownerId !== jsonuser.id) {
-        res.status(404)
-        return res.json({
-            message: "Spot couldn't be found"
-        })
-    } else {
-        const image = await SpotImage.create({
-            url, preview
-        })
-
-        res.json({
-            id: image.id,
-            url: image.url,
-            preview: image.preview
-        })
-    }
-
-})
-
 router.put('/:spotId', requireAuth, async (req, res, next) => {
     const user = req.user
     const jsonuser = user.toJSON()
@@ -554,7 +561,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     // const jsonspot = spot.toJSON()
     // console.log(jsonspot)
 
-    if (!spot || spot.ownerId !== user.id) {
+    if (!spot) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
@@ -609,7 +616,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const jsonuser = user.toJSON()
     const spot = await Spot.findByPk(req.params.spotId)
 
-    if (!spot || spot.ownerId !== user.id) {
+    if (!spot) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
