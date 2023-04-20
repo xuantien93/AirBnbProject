@@ -90,7 +90,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
         }
     })
 
-    if (!review) {
+    if (!review || review.userId !== user.id) {
         res.status(404)
         return res.json({
             message: "Review couldn't be found"
@@ -131,7 +131,7 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
 
     const newreview = await Review.findByPk(req.params.reviewId)
 
-    if (!newreview) {
+    if (!newreview || newreview.userId !== user.id) {
         res.status(404)
         return res.json({
             message: "Review couldn't be found"
@@ -170,7 +170,7 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
 
     const review = await Review.findByPk(req.params.reviewId)
 
-    if (!review) {
+    if (!review || review.userId !== user.id) {
         res.status(404)
         return res.json({
             message: "Review couldn't be found"
