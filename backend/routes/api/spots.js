@@ -243,6 +243,67 @@ router.get('/:spotId/reviews', requireAuth, async (req, res, next) => {
 
 })
 
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON()
+
+    if (jsonuser) {
+
+        const spot = await Spot.findByPk(req.params.spotId)
+
+        if (!spot) {
+            res.status(404)
+            return res.json({
+                message: "Spot couldn't be found"
+            })
+        }
+
+
+        const bookings = await Booking.findAll({
+            where: {
+                spotId: spot.id
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                }
+            ]
+        })
+
+        const bookList = []
+
+        bookings.forEach(booking => {
+            bookList.push(booking.toJSON())
+        })
+
+        bookList.forEach(ele => {
+            if (ele.userId !== jsonuser.id) {
+                delete ele.id
+                delete ele.User
+                delete ele.createdAt
+                delete ele.updatedAt
+                delete ele.userId
+                delete ele.Spot
+            }
+        })
+
+
+        res.json({
+            Bookings: bookList
+        })
+
+    } else {
+        res.status(401)
+        return res.json({
+            message: "Authenticaion Required"
+        })
+    }
+
+
+
+})
+
 router.get('/:spotId', async (req, res, next) => {
     const spotId = await Spot.findByPk(req.params.spotId)
     if (spotId) {
@@ -348,6 +409,77 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
 })
 
 
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const user = req.user
+    const jsonuser = user.toJSON()
+    const { startDate, endDate } = req.body
+
+    const spot = await Spot.findOne({
+        where: {
+            id: req.params.spotId
+        },
+        include: [
+            {
+                model: Booking
+            }
+        ]
+    })
+
+    if (!spot || spot.ownerId !== user.id) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found"
+        })
+    }
+
+    const err1 = {}
+    if (!startDate) err1.startDate = "startDate is required"
+    if (!endDate) err1.endDateErr = "endDate is required"
+    if (Object.keys(err1).length) {
+        res.status(400)
+        return res.json({
+            message: "Bad Request",
+            errors: err1
+        })
+    }
+
+    const booking1 = await Booking.findAll({
+        where: {
+            startDate: { [Op.lte]: startDate },
+            endDate: { [Op.gte]: startDate },
+            spotId: spot.id
+        }
+    });
+
+    const booking2 = await Booking.findAll({
+        where: {
+            startDate: { [Op.lte]: endDate },
+            endDate: { [Op.gte]: endDate },
+            spotId: spot.id
+        }
+    });
+
+
+
+    const err = {}
+    if (booking1.length) err.startDate = "Start date conflicts with an existing booking"
+    if (booking2.length) err.endDate = "End date conflicts with an existing booking"
+    if (Object.keys(err).length) {
+        res.status(403)
+        return res.json({
+            message: "Sorry, this spot is already booked for the specified dates",
+            errors: err
+        })
+    }
+
+
+    const newBooking = await Booking.create({
+        spotId: spot.id, userId: jsonuser.id,
+        startDate, endDate
+    })
+    res.json(newBooking)
+})
+
 router.post('/', requireAuth, async (req, res, next) => {
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body
@@ -422,7 +554,7 @@ router.put('/:spotId', requireAuth, async (req, res, next) => {
     // const jsonspot = spot.toJSON()
     // console.log(jsonspot)
 
-    if (!spot) {
+    if (!spot || spot.ownerId !== user.id) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
@@ -477,7 +609,7 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
     const jsonuser = user.toJSON()
     const spot = await Spot.findByPk(req.params.spotId)
 
-    if (!spot) {
+    if (!spot || spot.ownerId !== user.id) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
