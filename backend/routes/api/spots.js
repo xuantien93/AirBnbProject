@@ -8,8 +8,7 @@ const { Spot, User, Review, Booking, SpotImage, ReviewImage } = require('../../d
 
 router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-    page = parseInt(page) || 1
-    size = parseInt(size) || 20
+
     let where = {};
     if (page && size && minLat) {
         where.lat = { [Op.gte]: parseInt(minLat) };
@@ -136,6 +135,8 @@ router.get('/', async (req, res, next) => {
     if (isNaN(maxLng) && maxLng !== undefined) err.maxLng = "Maximum longtitude is invalid";
     if (isNaN(minPrice) && minPrice !== undefined) err.minPrice = "Mininum price is invalid";
     if (isNaN(maxPrice) && maxPrice !== undefined) err.maxPrice = "Maximum price is invalid";
+    if (isNaN(page) && page !== undefined) err.page = "Page is invalid";
+    if (isNaN(size) && size !== undefined) err.size = "Size is invalid";
 
 
     if (Object.keys(err).length) {
@@ -146,7 +147,8 @@ router.get('/', async (req, res, next) => {
         });
     }
 
-
+    page = parseInt(page) || 1
+    size = parseInt(size) || 20
 
     if (!Number.isInteger(page) || page > 10) page = 1;
     if (!Number.isInteger(size) || size > 20) size = 20;
