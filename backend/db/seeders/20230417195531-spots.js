@@ -153,7 +153,7 @@ module.exports = {
       },
       {
         ownerId: 4,
-        address: '123 Vine St',
+        address: '1231 Vine St',
         city: 'Charleston',
         state: 'South Carolina',
         country: 'United States',
@@ -165,7 +165,7 @@ module.exports = {
       },
       {
         ownerId: 5,
-        address: '456 Oak St',
+        address: '4561 Oak St',
         city: 'Aspen',
         state: 'Colorado',
         country: 'United States',
@@ -177,7 +177,7 @@ module.exports = {
       },
       {
         ownerId: 5,
-        address: '789 Maple Ave',
+        address: '7891 Maple Ave',
         city: 'San Diego',
         state: 'California',
         country: 'United States',

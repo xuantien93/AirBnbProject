@@ -11,11 +11,15 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
 
     const user = req.user
 
-    const spotimage = await SpotImage.findAll({
+    const spotimage = await SpotImage.findOne({
         where: {
-            spotId: req.params.imageId
+            id: req.params.imageId
+        },
+        include: {
+            model: Spot
         }
     })
+    // console.log(spotimage.Spot)
 
     if (!spotimage) {
         res.status(404)
@@ -24,7 +28,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         })
     }
 
-    if (spotimage.ownerId !== user.id) {
+    if (spotimage.Spot.ownerId !== user.id) {
         res.status(403)
         return res.json({
             message: "Forbidden"
