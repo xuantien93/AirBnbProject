@@ -268,7 +268,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
         allSpots.push(jsonspot)
     })
 
-    res.json({ Spots: allSpots })
+    if (!allSpots.length) {
+        res.json({ Spots: "No spots created yet" })
+    } else {
+        res.json({ Spots: allSpots })
+    }
+
 })
 
 router.get('/:spotId/reviews', requireAuth, async (req, res, next) => {
@@ -371,12 +376,17 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
                 delete ele.userId
                 delete ele.Spot
             }
+            ele.startDate = ele.startDate.toISOString().slice(0, 10)
+            ele.endDate = ele.endDate.toISOString().slice(0, 10)
         })
 
-
-        res.json({
-            Bookings: bookList
-        })
+        if (!bookList.length) {
+            res.json({ Bookings: "No bookings created for this spot yet" })
+        } else {
+            res.json({
+                Bookings: bookList
+            })
+        }
 
     } else {
         res.status(401)
@@ -417,6 +427,9 @@ router.get('/:spotId', async (req, res, next) => {
         const avg = total / jsonspot.Reviews.length
         jsonspot.numReviews = jsonspot.Reviews.length
         jsonspot.avgStarRating = avg.toFixed(1)
+        if (jsonspot.avgStarRating === "NaN") {
+            jsonspot.avgStarRating = "No ratings yet"
+        }
         if (!jsonspot.SpotImages.length) {
             jsonspot.SpotImages = "No images found"
         }
@@ -597,6 +610,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         })
     } else {
         await newBooking.save()
+        newBooking.dataValues.startDate = newBooking.startDate.toISOString().slice(0, 10)
+        newBooking.dataValues.endDate = newBooking.endDate.toISOString().slice(0, 10)
         res.json(newBooking)
     }
 
