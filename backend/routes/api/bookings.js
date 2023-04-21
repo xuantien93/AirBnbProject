@@ -53,7 +53,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
                     booking.Spot.previewImage = spotimage.url
                 }
             }
-
+            if (!booking.Spot.previewImage) {
+                booking.Spot.previewImage = "No images found"
+            }
         }
 
         res.json({
@@ -170,10 +172,10 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
         })
     }
     const now = Date.now()
-    if (booking.startDate.getTime() <= now) {
+    if (booking.startDate <= now && now <= booking.endDate) {
         res.status(403)
         return res.json({
-            message: "Bookings that have been started can't be deleted"
+            message: "Bookings that are currently in progress can't be deleted"
         })
     }
 
