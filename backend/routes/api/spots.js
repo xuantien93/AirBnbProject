@@ -10,12 +10,6 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     page = parseInt(page) || 1
     size = parseInt(size) || 20
-    // minLat = parseInt(minLat)
-    // maxLat = parseInt(maxLat)
-    // minLng = parseInt(minLng)
-    // maxLng = parseInt(maxLng)
-    // minPrice = parseInt(minPrice)
-    // maxPrice = parseInt(maxPrice)
 
     let where = {};
 
@@ -203,7 +197,7 @@ router.get('/', async (req, res, next) => {
             total += ele.stars
         })
         const avg = total / jsonspot.Reviews.length
-        jsonspot.avgRating = avg
+        jsonspot.avgRating = avg.toFixed(1)
 
         jsonspot.SpotImages.forEach(ele => {
             if (ele.preview === true) {
@@ -250,7 +244,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             total += ele.stars
         })
         const avg = total / jsonspot.Reviews.length
-        jsonspot.avgRating = avg
+        jsonspot.avgRating = avg.toFixed(1)
 
         jsonspot.SpotImages.forEach(ele => {
             if (ele.preview === true) {
@@ -386,8 +380,9 @@ router.get('/:spotId', async (req, res, next) => {
         })
         const avg = total / jsonspot.Reviews.length
         jsonspot.numReviews = jsonspot.Reviews.length
-        jsonspot.avgStarRating = avg
+        jsonspot.avgStarRating = avg.toFixed(1)
         delete jsonspot.Reviews
+        delete jsonspot.Owner.username
 
 
         res.json(jsonspot)
@@ -480,12 +475,22 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         ]
     })
 
-    if (!spot || spot.ownerId !== user.id) {
+    if (!spot) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
         })
     }
+
+    if (spot.ownerId === user.id) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+
+    const endDateObj1 = new Date(endDate)
+    const startDateObj1 = new Date(startDate)
 
     const err1 = {}
     if (!startDate) err1.startDate = "startDate is required"
@@ -495,6 +500,14 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         return res.json({
             message: "Bad Request",
             errors: err1
+        })
+    }
+
+
+    if (endDateObj1 <= startDateObj1) {
+        res.status(403)
+        return res.json({
+            message: "Invalid booking dates. End date should be after the start date."
         })
     }
 
@@ -527,12 +540,25 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         })
     }
 
-
-    const newBooking = await Booking.create({
+    const newBooking = await Booking.build({
         spotId: spot.id, userId: jsonuser.id,
         startDate, endDate
     })
-    res.json(newBooking)
+    const now = Date.now()
+    console.log(newBooking)
+    const endDateObj = new Date(newBooking.startDate)
+    const startDateObj = new Date(newBooking.endDate)
+    if (startDateObj <= now || endDateObj <= now) {
+        res.status(403)
+        return res.json({
+            message: "Invalid booking date. Bookings can only be made for future dates."
+        })
+    } else {
+        await newBooking.save()
+        res.json(newBooking)
+    }
+
+
 })
 
 
@@ -548,6 +574,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         }
     })
     // const jsonspot = spot.toJSON() // 10
+    console.log(spot)
     if (!spot) {
         res.status(404)
         return res.json({
@@ -562,10 +589,14 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         })
     }
 
-    const image = await SpotImage.create({
+    const image = await SpotImage.build({
         url, preview
     })
 
+
+
+    await image.save()
+    await spot.addSpotImages(image)
     res.json({
         id: image.id,
         url: image.url,

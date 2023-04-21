@@ -37,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
     ownerId: DataTypes.INTEGER,
     address: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     city: {
       type: DataTypes.STRING,
@@ -55,14 +56,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       validate: {
         min: -90,
-        max: 90
+        max: 90,
+        isNumeric: true
       }
     },
     lng: {
       type: DataTypes.DECIMAL,
       validate: {
         min: -180,
-        max: 180
+        max: 180,
+        isNumeric: true
       }
     },
     name: {
