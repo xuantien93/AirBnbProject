@@ -12,60 +12,56 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const user = req.user
     const jsonuser = user.toJSON()
 
-    if (jsonuser) {
-
-        const bookings = await Booking.findAll({
-            where: {
-                userId: user.id
-            },
-            include: [
-                {
-                    model: Spot,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt', 'description']
-                    }
-                }
-            ]
-        })
-
-        const allBookings = []
-        bookings.forEach(booking => {
-            const jsonbooking = booking.toJSON()
-            allBookings.push(jsonbooking)
-        })
-
-        for (let booking of allBookings) {
-            const spotId = booking.Spot.id
-
-            const images = await SpotImage.findAll({
-                where: {
-                    spotId: spotId
-                }
-            })
-            const imageList = []
-            images.forEach(image => {
-                const jsonimage = image.toJSON()
-                imageList.push(jsonimage)
-            })
-
-            for (let spotimage of imageList) {
-                if (spotimage.preview) {
-                    booking.Spot.previewImage = spotimage.url
+    const bookings = await Booking.findAll({
+        where: {
+            userId: user.id
+        },
+        include: [
+            {
+                model: Spot,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'description']
                 }
             }
-            if (!booking.Spot.previewImage) {
-                booking.Spot.previewImage = "No images found"
+        ]
+    })
+
+    const allBookings = []
+    bookings.forEach(booking => {
+        const jsonbooking = booking.toJSON()
+        allBookings.push(jsonbooking)
+    })
+
+    for (let booking of allBookings) {
+        const spotId = booking.Spot.id
+
+        const images = await SpotImage.findAll({
+            where: {
+                spotId: spotId
+            }
+        })
+        const imageList = []
+        images.forEach(image => {
+            const jsonimage = image.toJSON()
+            imageList.push(jsonimage)
+        })
+
+        for (let spotimage of imageList) {
+            if (spotimage.preview) {
+                booking.Spot.previewImage = spotimage.url
             }
         }
-
+        if (!booking.Spot.previewImage) {
+            booking.Spot.previewImage = "No images found"
+        }
+        booking.startDate = booking.startDate.toISOString().slice(0, 10)
+        booking.endDate = booking.endDate.toISOString().slice(0, 10)
+    }
+    if (!allBookings.length) {
+        res.json({ Bookings: "No bookings created yet" })
+    } else {
         res.json({
             Bookings: allBookings
-        })
-
-    } else {
-        res.status(401)
-        return res.json({
-            message: "Authentication required"
         })
     }
 
@@ -149,6 +145,8 @@ router.put('/:bookingId', requireAuth, async (req, res, next) => {
     if (endDate) booking.endDate = endDate
 
     await booking.save()
+    booking.dataValues.startDate = booking.startDate.toISOString().slice(0, 10)
+    booking.dataValues.endDate = booking.endDate.toISOString().slice(0, 10)
     res.json(booking)
 
 })
