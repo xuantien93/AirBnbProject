@@ -58,9 +58,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
                     review.Spot.previewImage = spotimage.url
                 }
             }
-            if (!review.Spot.previewImage) {
-                review.Spot.previewImage = "No images available at the moment"
-            }
+
             if (!review.ReviewImages.length) {
                 review.ReviewImages = "No review images available at the moment"
             }
