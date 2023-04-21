@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { requireAuth } = require('../../utils/auth')
-const { Op } = require('sequelize');
+const { Op, json } = require('sequelize');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Spot, User, Review, Booking, SpotImage, ReviewImage } = require('../../db/models')
@@ -10,11 +10,7 @@ router.get('/', async (req, res, next) => {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
     page = parseInt(page) || 1
     size = parseInt(size) || 20
-
     let where = {};
-
-
-
     if (page && size && minLat) {
         where.lat = { [Op.gte]: parseInt(minLat) };
     }
@@ -198,13 +194,19 @@ router.get('/', async (req, res, next) => {
         })
         const avg = total / jsonspot.Reviews.length
         jsonspot.avgRating = avg.toFixed(1)
+        if (jsonspot.avgRating === "NaN") {
+            jsonspot.avgRating = "No ratings for this spot yet"
+        }
 
         jsonspot.SpotImages.forEach(ele => {
             if (ele.preview === true) {
                 jsonspot.previewImage = ele.url
             }
-            // condition true
         })
+        if (!jsonspot.previewImage) {
+            jsonspot.previewImage = "No images found"
+        }
+
 
         delete jsonspot.Reviews
         delete jsonspot.SpotImages
@@ -245,12 +247,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
         })
         const avg = total / jsonspot.Reviews.length
         jsonspot.avgRating = avg.toFixed(1)
+        if (jsonspot.avgRating === "NaN") {
+            jsonspot.avgRating = "No ratings for this spot yet"
+        }
 
         jsonspot.SpotImages.forEach(ele => {
             if (ele.preview === true) {
                 jsonspot.previewImage = ele.url
             }
+
         })
+        if (!jsonspot.previewImage) {
+            jsonspot.previewImage = "No images found"
+        }
 
         delete jsonspot.Reviews
         delete jsonspot.SpotImages
@@ -263,32 +272,55 @@ router.get('/current', requireAuth, async (req, res, next) => {
 router.get('/:spotId/reviews', requireAuth, async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId)
-    if (spot) {
-        const reviews = await Review.findAll({
-            where: {
-                spotId: spot.id
-            },
-            include: [
-                {
-                    model: User,
-                    attributes: ['id', 'firstName', 'lastName']
-                },
-                {
-                    model: ReviewImage,
-                    attributes: ['id', 'url']
-                }
-            ]
-        })
-        res.json({
-            Reviews: reviews
-        })
-    } else {
+
+    if (!spot) {
         res.status(404)
         return res.json({
             message: "Spot couldn't be found"
         })
+
+    }
+    const reviews = await Review.findAll({
+        where: {
+            spotId: spot.id
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    })
+    const reviewList = []
+    reviews.forEach(review => {
+        reviewList.push(review.toJSON())
+    })
+
+    for (let review of reviewList) {
+        const reviewId = review.id
+
+        const reviewimage = await ReviewImage.findAll({
+            where: {
+                reviewId: reviewId
+            }
+        })
+        const reviewimagelist = []
+        reviewimage.forEach(image => {
+            reviewimagelist.push(image.toJSON())
+        })
+        if (!reviewimagelist.length) {
+            review.ReviewImages = "No images found"
+        }
     }
 
+
+    res.json({
+        Reviews: reviewList
+    })
 
 })
 
@@ -325,6 +357,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         bookings.forEach(booking => {
             bookList.push(booking.toJSON())
         })
+
+
 
         bookList.forEach(ele => {
             if (ele.userId !== jsonuser.id) {
@@ -381,6 +415,9 @@ router.get('/:spotId', async (req, res, next) => {
         const avg = total / jsonspot.Reviews.length
         jsonspot.numReviews = jsonspot.Reviews.length
         jsonspot.avgStarRating = avg.toFixed(1)
+        if (!jsonspot.SpotImages.length) {
+            jsonspot.SpotImages = "No images found"
+        }
         delete jsonspot.Reviews
         delete jsonspot.Owner.username
 
@@ -545,7 +582,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
         startDate, endDate
     })
     const now = Date.now()
-    console.log(newBooking)
+
     const endDateObj = new Date(newBooking.startDate)
     const startDateObj = new Date(newBooking.endDate)
     if (startDateObj <= now || endDateObj <= now) {
