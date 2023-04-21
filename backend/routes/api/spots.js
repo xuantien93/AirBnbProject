@@ -440,7 +440,7 @@ router.get('/:spotId', async (req, res, next) => {
         res.json(jsonspot)
     } else {
         const err = new Error(`Spot couldn't be found`)
-        err.statusCode = 400
+        err.statusCode = 404
         err.title = "Uh oh"
         return next({
             title: err.title,
