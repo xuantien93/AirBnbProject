@@ -474,6 +474,13 @@ router.post('/:spotId/reviews', requireAuth, async (req, res, next) => {
         })
     }
 
+    if (spot.ownerId === user.id) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden"
+        })
+    }
+
     const err = {}
 
     if (!review) err.review = "Review text is required"
