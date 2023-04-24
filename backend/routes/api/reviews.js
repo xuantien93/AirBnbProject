@@ -38,6 +38,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
             const jsonreview = review.toJSON()
             allReviews.push(jsonreview)
         })
+        if (!allReviews.length) {
+            res.json({ Reviews: "No reviews created yet" })
+        }
 
         for (let review of allReviews) {
             const spotId = review.Spot.id
@@ -58,7 +61,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
                     review.Spot.previewImage = spotimage.url
                 }
             }
-
             if (!review.ReviewImages.length) {
                 review.ReviewImages = "No review images available at the moment"
             }
