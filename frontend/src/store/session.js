@@ -80,4 +80,4 @@ const sessionReducer = (state = initialState, action) => {
     }
 };
 
-export default sessionReducer;
+export default sessionReducer
