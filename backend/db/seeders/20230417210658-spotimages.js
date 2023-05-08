@@ -12,77 +12,77 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         spotId: 1,
-        url: "https://fakeimage.com/1.jpg",
+        url: "https://i.imgur.com/WhTOyTB.jpg",
         preview: true
       },
       {
         spotId: 2,
-        url: "https://fakeimage.com/2.jpg",
+        url: "https://i.imgur.com/HBFc0Rx.jpg",
         preview: true
       },
       {
         spotId: 3,
-        url: "https://fakeimage.com/3.jpg",
+        url: "https://i.imgur.com/rcyq3w4.jpg",
         preview: true
       },
       {
         spotId: 4,
-        url: "https://fakeimage.com/4.jpg",
+        url: "https://i.imgur.com/SiGQ5k5.jpg",
         preview: true
       },
       {
         spotId: 5,
-        url: "https://fakeimage.com/5.jpg",
+        url: "https://i.imgur.com/2tk5ZcW.jpg",
         preview: true
       },
       {
         spotId: 6,
-        url: "https://fakeimage.com/6.jpg",
+        url: "https://i.imgur.com/Gf6tqu9.jpg",
         preview: true
       },
       {
         spotId: 7,
-        url: "https://fakeimage.com/7.jpg",
+        url: "https://i.imgur.com/qCPdZG6.jpg",
         preview: true
       },
       {
         spotId: 8,
-        url: "https://fakeimage.com/8.jpg",
+        url: "https://i.imgur.com/P8kCjm1.jpg",
         preview: true
       },
       {
         spotId: 9,
-        url: "https://fakeimage.com/9.jpg",
+        url: "https://i.imgur.com/W0pe8Cl.jpg",
         preview: true
       },
       {
         spotId: 10,
-        url: "https://fakeimage.com/10.jpg",
+        url: "https://i.imgur.com/qhsfg7p.jpg",
         preview: true
       },
       {
         spotId: 11,
-        url: "https://fakeimage.com/11.jpg",
+        url: "https://i.imgur.com/5BSKBlO.jpg",
         preview: true
       },
       {
         spotId: 12,
-        url: "https://fakeimage.com/12.jpg",
+        url: "https://i.imgur.com/K2P6xT1.jpg",
         preview: true
       },
       {
         spotId: 13,
-        url: "https://fakeimage.com/13.jpg",
+        url: "https://i.imgur.com/Pc1JxH6.jpg",
         preview: true
       },
       {
         spotId: 14,
-        url: "https://fakeimage.com/14.jpg",
+        url: "https://i.imgur.com/LOGXLrA.jpg",
         preview: true
       },
       {
         spotId: 15,
-        url: "https://fakeimage.com/15.jpg",
+        url: "https://i.imgur.com/hiwXT1C.jpg",
         preview: true
       },
 

@@ -1,0 +1,52 @@
+.all-spots {
+    padding: 11px;
+}
+
+.preview-image {
+    width: 230px;
+    height: 200px;
+    border-radius: 10px;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 10rem;
+    background-color: #CCCCCC;
+    opacity: 0.8;
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.price>span {
+    font-weight: bold;
+}
+
+
+.delete-spot-modal {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.delete-spot-modal-button {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.delete-spot-modal-button>button {
+    padding: 5px 5px;
+    margin: 5px 0px;
+    box-shadow: 1px 2px 2px;
+}
