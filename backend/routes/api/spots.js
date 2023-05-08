@@ -216,8 +216,7 @@ router.get('/', async (req, res, next) => {
     })
 
 
-
-    res.json({ Spots: allSpots, page, size })
+    return res.json({ Spots: allSpots, page, size })
 })
 
 
