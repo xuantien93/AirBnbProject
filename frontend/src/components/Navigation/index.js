@@ -12,7 +12,7 @@ function Navigation({ isLoaded }) {
             <div className='logo-and-name'>
                 <NavLink exact to="/" className="top-navbar">
                     <div className='logo'>
-                        <i class="fa-brands fa-airbnb"></i>
+                        <i className="fa-brands fa-airbnb"></i>
                     </div>
                 </NavLink>
                 <NavLink exact to="/" className="top-logo-name">

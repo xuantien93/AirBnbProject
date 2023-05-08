@@ -1,14 +1,13 @@
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
 import './SingleSpotDetail.css'
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import OpenModalButton from '../OpenModalButton';
 import DeleteModal from './DeleteModal';
 
 
 const SingleSpotDetail = ({ spot }) => {
     const history = useHistory()
+    const user = useSelector(state => state.session.user)
 
     const handleClick = () => {
         history.push(`/spots/${spot.id}`)
@@ -35,14 +34,14 @@ const SingleSpotDetail = ({ spot }) => {
                 <span>{spot.state}</span>
             </div>
             <span className='star-icon'><i className='fa-solid fa-star'></i> {spot.avgRating <= 5 ? spot.avgRating : 'New'}</span>
-            <div className='price'><span>${spot.price.toFixed(2)}</span> night</div>
-            <div className='update-delete-button'>
+            <div className='price'><span>${Number(spot.price).toFixed(2)}</span> night</div>
+            {user && <div className='update-delete-button'>
                 <button onClick={handleUpdate}>Update</button>
                 <OpenModalButton
                     buttonText='Delete Spot'
                     modalComponent={<DeleteModal spotId={spot.id} />}
                 />
-            </div>
+            </div>}
         </div>
     )
 
