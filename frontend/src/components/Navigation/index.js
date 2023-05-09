@@ -19,13 +19,16 @@ function Navigation({ isLoaded }) {
                     <h1>LuxBnb</h1>
                 </NavLink>
             </div>
-            <ul>
-                {isLoaded && (
-                    <>
-                        <ProfileButton user={sessionUser} />
-                    </>
-                )}
-            </ul>
+            {isLoaded && (
+                <div className='topright-nav'>
+                    {sessionUser &&
+                        <NavLink to="/spots/new" className="topright-nav-create-text">
+                            <button>Create a New Spot</button>
+                        </NavLink>}
+                    <ProfileButton user={sessionUser} />
+                </div>
+            )}
+
         </div>
     );
 }
