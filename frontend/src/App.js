@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import SpotIndex from "./components/Spots";
 import SpotBySpotId from "./components/SpotBySpotId";
+import CreateSpotForm from "./components/CreateSpotForm";
 
 
 
@@ -23,8 +24,14 @@ function App() {
           <Route exact path="/" >
             <SpotIndex />
           </Route >
+          <Route path="/spots/new">
+            <CreateSpotForm />
+          </Route>
           <Route path="/spots/:id">
             <SpotBySpotId />
+          </Route>
+          <Route>
+            <h1>Page not Found</h1>
           </Route>
         </Switch>}
     </>

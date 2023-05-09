@@ -3,11 +3,17 @@ import { csrfFetch } from "./csrf";
 const LOAD_SPOTS = "spots/LOAD_SPOTS";
 const DELETE_SPOT = "spots/DELETE_SPOT"
 const GET_SPOT_BY_SPOTID = "spots/GET_SPOT_BY_SPOTID"
+const CREATE_SPOT = "spots/CREATE_SPOT"
 
 export const loadSpots = (spots) => ({
     type: LOAD_SPOTS,
     spots
 
+})
+
+export const createSpot = (spot) => ({
+    type: CREATE_SPOT,
+    spot
 })
 
 export const deleteSpot = (spotId) => ({
@@ -37,9 +43,22 @@ export const fetchSingleSpot = (spotId) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${spotId}`)
     if (response.ok) {
         const spot = await response.json()
-        console.log("Spot thunk ", spot)
         dispatch(getSpotById(spot))
         return spot
+    }
+}
+
+export const createASpot = (spot) => async dispatch => {
+    const response = await csrfFetch(`/api/spots`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(spot)
+    })
+
+    if (response.ok) {
+        const newSpot = await response.json()
+        dispatch(createASpot(newSpot))
+        return newSpot
     }
 }
 
@@ -73,6 +92,13 @@ const spotsReducer = (state = initialState, action) => {
         case GET_SPOT_BY_SPOTID: {
             const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } }
             newState.singleSpot = action.spot
+            return newState
+        }
+        case CREATE_SPOT: {
+            const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } }
+            const spot = action.spot
+            newState.allSpots[spot.id] = spot
+            newState.singleSpot = spot
             return newState
         }
         default:

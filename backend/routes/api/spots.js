@@ -275,7 +275,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 })
 
-router.get('/:spotId/reviews', requireAuth, async (req, res, next) => {
+router.get('/:spotId/reviews', async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId)
 

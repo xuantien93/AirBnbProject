@@ -32,6 +32,34 @@
     z-index: 20;
 }
 
+.topright-nav {
+    display: flex;
+    align-items: center;
+}
+
+.topright-nav-create-text {
+    text-decoration: none;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+
+.topright-nav-create-text>button {
+    background: transparent;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 21px;
+    padding: 5px 5px 5px 5px;
+    transition: all 0.3 ease 0s;
+    display: flex;
+    align-items: center;
+}
+
+.topright-nav-create-text>button:hover {
+    box-shadow: 1px 1px 2px grey;
+}
+
 .logo {
     font-size: xx-large;
 }
@@ -59,6 +87,10 @@
     transition: all 0.3 ease 0s;
     display: flex;
     align-items: center;
+}
+
+.profile-button-icon:hover {
+    box-shadow: 1px 1px 2px grey;
 }
 
 .fa-user-circle {
