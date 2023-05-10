@@ -148,10 +148,10 @@ router.get('/', async (req, res, next) => {
     }
 
     page = parseInt(page) || 1
-    size = parseInt(size) || 20
+    size = parseInt(size) || 100
 
     if (!Number.isInteger(page) || page > 10) page = 1;
-    if (!Number.isInteger(size) || size > 20) size = 20;
+    if (!Number.isInteger(size) || size > 20) size = 100;
     if (page <= 0 || size <= 0) {
         res.status(400)
         return res.json({
@@ -197,7 +197,7 @@ router.get('/', async (req, res, next) => {
         const avg = total / jsonspot.Reviews.length
         jsonspot.avgRating = avg.toFixed(1)
         if (jsonspot.avgRating === "NaN") {
-            jsonspot.avgRating = "No ratings for this spot yet"
+            jsonspot.avgRating = []
         }
 
         jsonspot.SpotImages.forEach(ele => {
@@ -205,9 +205,6 @@ router.get('/', async (req, res, next) => {
                 jsonspot.previewImage = ele.url
             }
         })
-        if (!jsonspot.previewImage) {
-            jsonspot.previewImage = "No images found"
-        }
 
 
         delete jsonspot.Reviews
@@ -249,7 +246,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         const avg = total / jsonspot.Reviews.length
         jsonspot.avgRating = avg.toFixed(1)
         if (jsonspot.avgRating === "NaN") {
-            jsonspot.avgRating = "No ratings for this spot yet"
+            jsonspot.avgRating = []
         }
 
         jsonspot.SpotImages.forEach(ele => {
@@ -258,20 +255,16 @@ router.get('/current', requireAuth, async (req, res, next) => {
             }
 
         })
-        if (!jsonspot.previewImage) {
-            jsonspot.previewImage = "No images found"
-        }
+
 
         delete jsonspot.Reviews
         delete jsonspot.SpotImages
         allSpots.push(jsonspot)
     })
 
-    if (!allSpots.length) {
-        res.json({ Spots: "No spots created yet" })
-    } else {
-        res.json({ Spots: allSpots })
-    }
+
+    res.json({ Spots: allSpots })
+
 
 })
 
@@ -318,16 +311,16 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         reviewimage.forEach(image => {
             reviewimagelist.push(image.toJSON())
         })
-        if (!reviewimagelist.length) {
-            review.ReviewImages = "No images found"
-        }
+        //     if (!reviewimagelist.length) {
+        //         review.ReviewImages = "No images found"
+        //     }
+        // }
+
+
     }
-
-
     res.json({
         Reviews: reviewList
     })
-
 })
 
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
@@ -379,13 +372,10 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
             ele.endDate = ele.endDate.toISOString().slice(0, 10)
         })
 
-        if (!bookList.length) {
-            res.json({ Bookings: "No bookings created for this spot yet" })
-        } else {
-            res.json({
-                Bookings: bookList
-            })
-        }
+        res.json({
+            Bookings: bookList
+        })
+
 
     } else {
         res.status(401)
@@ -427,25 +417,23 @@ router.get('/:spotId', async (req, res, next) => {
         jsonspot.numReviews = jsonspot.Reviews.length
         jsonspot.avgStarRating = avg.toFixed(1)
         if (jsonspot.avgStarRating === "NaN") {
-            jsonspot.avgStarRating = "No ratings yet"
+            jsonspot.avgStarRating = []
         }
-        if (!jsonspot.SpotImages.length) {
-            jsonspot.SpotImages = "No images found"
-        }
+
         delete jsonspot.Reviews
         delete jsonspot.Owner.username
 
-
         res.json(jsonspot)
-    } else {
-        const err = new Error(`Spot couldn't be found`)
-        err.statusCode = 404
-        err.title = "Uh oh"
-        return next({
-            title: err.title,
-            message: err.message
-        })
     }
+    // else {
+    //     const err = new Error(`Spot couldn't be found`)
+    //     err.statusCode = 404
+    //     err.title = "Uh oh"
+    //     return next({
+    //         title: err.title,
+    //         message: err.message
+    //     })
+    // }
 })
 
 

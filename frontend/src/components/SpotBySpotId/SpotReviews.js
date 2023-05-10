@@ -7,11 +7,11 @@ import OpenModalButton from "../OpenModalButton"
 import CreateReviewModal from "./CreateReviewModal"
 import DeleteReviewModal from "./DeleteReviewModal"
 
-const SpotReviews = ({ review, spotId }) => {
+const SpotReviews = ({ reviews, spotId }) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session)
     const reviewObj = useSelector(state => state.reviews.spot)
-    const reviews = Object.values(reviewObj)
+    // const reviews = Object.values(reviewObj)
     const spot = useSelector(state => state.spots.singleSpot)
 
 

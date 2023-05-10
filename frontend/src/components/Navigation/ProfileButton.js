@@ -4,11 +4,13 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
+    const history = useHistory()
 
     const openMenu = () => {
         if (showMenu) return;
@@ -35,6 +37,7 @@ function ProfileButton({ user }) {
         e.preventDefault();
         dispatch(sessionActions.logout());
         closeMenu();
+        history.push('/')
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -48,14 +51,29 @@ function ProfileButton({ user }) {
                 </button>
                 <ul className={ulClassName} ref={ulRef}>
                     {user ? (
-                        <>
-                            <li>{user.username}</li>
-                            <li>{user.firstName} {user.lastName}</li>
-                            <li>{user.email}</li>
-                            <li>
-                                <button onClick={logout}>Log Out</button>
-                            </li>
-                        </>
+                        <div className="user-menu">
+                            <span>Hello, {user.username}</span>
+                            <span>{user.email}</span>
+                            <span
+                                className="manage-spots-button"
+                                onClick={(e) => {
+                                    history.push(`/spots/current`)
+                                    closeMenu()
+                                }}
+                            >Manage Spots
+                            </span>
+                            <span
+                                className="manage-reviews-button"
+                                onClick={(e) => {
+                                    history.push(`/reviews/current`)
+                                    closeMenu()
+                                }}
+                            >Manage Reviews
+                            </span>
+                            <span>
+                                <button onClick={logout} className="log-out-button">Log Out</button>
+                            </span>
+                        </div>
                     ) : (
                         <>
                             <div className="open-modal-menu">

@@ -6,12 +6,12 @@ import DeleteModal from './DeleteModal';
 import { useEffect } from 'react';
 
 
-const SingleSpotDetail = ({ spot }) => {
+const SingleSpotDetail = ({ spot, manage }) => {
     const history = useHistory()
     const user = useSelector(state => state.session.user)
 
-    console.log("this is user", user)
-    console.log("this  is spot", spot)
+    // console.log("this is user", user)
+    // console.log("this  is spot", spot)
     const handleClick = () => {
         history.push(`/spots/${spot.id}`)
     }
@@ -41,10 +41,10 @@ const SingleSpotDetail = ({ spot }) => {
             </div>
             <span className='star-icon'><i className='fa-solid fa-star'></i> {spot.avgRating <= 5 ? spot.avgRating : 'New'}</span>
             <div className='price'><span>${Number(spot.price).toFixed(2)}</span> night</div>
-            {user?.id === spot.ownerId && <div className='update-delete-button'>
+            {user?.id === spot.ownerId && manage && <div className='update-delete-button'>
                 <button onClick={handleUpdate}>Update</button>
                 <OpenModalButton
-                    buttonText='Delete Spot'
+                    buttonText='Delete'
                     modalComponent={<DeleteModal spotId={spot.id} />}
                 />
             </div>}
