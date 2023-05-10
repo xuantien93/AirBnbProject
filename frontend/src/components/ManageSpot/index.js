@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux"
 import "./ManageSpot.css"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { fetchSpots } from "../../store/spots"
 import SingleSpotDetail from "../SingleSpotDetail"
 
 
 const ManageSpot = () => {
-
+    const [loading, setLoading] = useState(true);
     const spotObj = useSelector(state => state.spots.allSpots)
     const spots = Object.values(spotObj)
 
@@ -19,7 +19,12 @@ const ManageSpot = () => {
 
     useEffect(() => {
         dispatch(fetchSpots())
+            .then(() => setLoading(false))
     }, [dispatch])
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div className="manage-spot-page">
