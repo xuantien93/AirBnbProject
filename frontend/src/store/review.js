@@ -15,7 +15,8 @@ export const getAllReviewsBySpotIdThunk = (spotId) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
 
     if (response.ok) {
-        const reviews = await response.json()
+        const reviewsObj = await response.json()
+        const reviews = reviewsObj.Reviews
         dispatch(getAllReviewsBySpotId(reviews))
         return reviews
     }
@@ -27,8 +28,8 @@ const initialState = { spot: {}, user: {} }
 const reviewReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_ALL_REVIEWS_BY_SPOTID: {
-            const newState = { ...state, spot: { ...state.spot }, user: {} }
-            const reviews = action.reviews.Reviews
+            const newState = { ...state, spot: {} }
+            const reviews = action.reviews
             reviews.forEach(review => newState.spot[review.id] = review)
             return newState
         }

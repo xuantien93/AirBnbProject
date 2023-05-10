@@ -51,19 +51,17 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 booking.Spot.previewImage = spotimage.url
             }
         }
-        if (!booking.Spot.previewImage) {
-            booking.Spot.previewImage = "No images found"
-        }
+        // if (!booking.Spot.previewImage) {
+        //     booking.Spot.previewImage = "No images found"
+        // }
         booking.startDate = booking.startDate.toISOString().slice(0, 10)
         booking.endDate = booking.endDate.toISOString().slice(0, 10)
     }
-    if (!allBookings.length) {
-        res.json({ Bookings: "No bookings created yet" })
-    } else {
-        res.json({
-            Bookings: allBookings
-        })
-    }
+
+    res.json({
+        Bookings: allBookings
+    })
+
 
 })
 

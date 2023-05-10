@@ -1,0 +1,44 @@
+.form-container {
+    display: flex;
+    flex-flow: column;
+    width: 400px;
+    justify-content: center;
+    height: fit-content;
+    background-color: rgb(246, 244, 244);
+
+}
+
+.create-spot-form-page {
+    display: flex;
+    flex-flow: column;
+    padding: 0px 20px;
+    border: 1px solid black
+}
+
+.description-form-box {
+    margin: 7px 0px;
+
+}
+
+.spot-title {
+    width: 100%;
+}
+
+
+.image-inputs {
+    display: flex;
+    flex-flow: column;
+    margin: 4px;
+    padding: 6px 0px
+}
+
+.image-inputs>input {
+    margin: 8px;
+}
+
+.submit-spot-form-button {
+    margin: 10px 0px;
+    padding: 4px 10px;
+    width: fit-content;
+    align-items: center;
+}

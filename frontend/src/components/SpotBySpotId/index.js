@@ -12,8 +12,8 @@ const SpotBySpotId = () => {
     const dispatch = useDispatch()
     const spot = useSelector(state => state.spots.singleSpot)
     const reviewObj = useSelector(state => state.reviews.spot)
+    const user = useSelector(state => state.session.user)
     const reviews = Object.values(reviewObj)
-    // console.log(reviews)
 
     useEffect(() => {
         dispatch(fetchSingleSpot(id))
@@ -28,7 +28,7 @@ const SpotBySpotId = () => {
 
     let previewImg = [];
     let nonPreviewImg = [];
-
+    // console.log(spot.SpotImages)
     if (spot.SpotImages && spot.SpotImages.length > 0) {
         previewImg = spot.SpotImages.find(image => image.preview === true)
         nonPreviewImg = spot.SpotImages.filter(image => image.preview === false)
@@ -59,7 +59,7 @@ const SpotBySpotId = () => {
                         <div className="spot-info-box">
                             <div className="price-review-rating">
                                 <p>${Number(spot.price).toFixed(2)} per night</p>
-                                {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
+                                {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
                                     : <h5><i className="fa-solid fa-star"></i> New</h5>
                                 }
                             </div>
@@ -68,7 +68,7 @@ const SpotBySpotId = () => {
                             <div className="spot-reviews-details">
                                 {reviews.length ?
                                     <>
-                                        <h3><i className="fa-solid fa-star"></i> {spot.avgRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
+                                        <h3><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
                                         <SpotReviews reviews={reviews} spotId={id} />
                                     </>
                                     : <>

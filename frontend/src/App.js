@@ -6,6 +6,8 @@ import Navigation from "./components/Navigation";
 import SpotIndex from "./components/Spots";
 import SpotBySpotId from "./components/SpotBySpotId";
 import CreateSpotForm from "./components/CreateSpotForm";
+import ManageSpot from "./components/ManageSpot";
+import UpdateForm from "./components/UpdateForm";
 
 
 
@@ -26,6 +28,12 @@ function App() {
           </Route >
           <Route path="/spots/new">
             <CreateSpotForm />
+          </Route>
+          <Route path="/spots/current">
+            <ManageSpot />
+          </Route>
+          <Route path="/spots/:id/edit">
+            <UpdateForm />
           </Route>
           <Route path="/spots/:id">
             <SpotBySpotId />
