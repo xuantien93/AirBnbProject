@@ -52,38 +52,42 @@ function ProfileButton({ user }) {
                 <ul className={ulClassName} ref={ulRef}>
                     {user ? (
                         <div className="user-menu">
-                            <span>Hello, {user.username}</span>
-                            <span>{user.email}</span>
-                            <span
-                                className="manage-spots-button"
-                                onClick={(e) => {
-                                    history.push(`/spots/current`)
-                                    closeMenu()
-                                }}
-                            >Manage Spots
-                            </span>
-                            <span
-                                className="manage-reviews-button"
-                                onClick={(e) => {
-                                    history.push(`/reviews/current`)
-                                    closeMenu()
-                                }}
-                            >Manage Reviews
-                            </span>
-                            <span>
-                                <button onClick={logout} className="log-out-button">Log Out</button>
-                            </span>
+                            <div className="user-menu-content">
+                                <span>Hello, {user.username}</span>
+                                <span>{user.email}</span>
+                                <span
+                                    className="manage-spots-button"
+                                    onClick={(e) => {
+                                        history.push(`/spots/current`)
+                                        closeMenu()
+                                    }}
+                                >Manage Spots
+                                </span>
+                                <span
+                                    className="manage-reviews-button"
+                                    onClick={(e) => {
+                                        history.push(`/reviews/current`)
+                                        closeMenu()
+                                    }}
+                                >Manage Reviews
+                                </span>
+                                <span>
+                                    <button onClick={logout} className="log-out-button">Log Out</button>
+                                </span>
+                            </div>
                         </div>
                     ) : (
                         <>
                             <div className="open-modal-menu">
                                 <OpenModalMenuItem
                                     itemText="Log In"
+                                    className="login-topright"
                                     onItemClick={closeMenu}
                                     modalComponent={<LoginFormModal />}
                                 />
                                 <OpenModalMenuItem
                                     itemText="Sign Up"
+                                    className="signup-topright"
                                     onItemClick={closeMenu}
                                     modalComponent={<SignupFormModal />}
                                 />
