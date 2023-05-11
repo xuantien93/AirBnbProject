@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSpots } from "../../store/spots";
 import './SpotIndex.css'
 import SingleSpotDetail from "../SingleSpotDetail";
-
+import { cleanUp } from "../../store/spots";
 
 
 function SpotIndex() {
@@ -14,6 +14,7 @@ function SpotIndex() {
     useEffect(() => {
         dispatch(fetchSpots())
             .then(() => setLoading(false))
+        return () => dispatch(cleanUp())
     }, [dispatch])
 
     if (loading) {

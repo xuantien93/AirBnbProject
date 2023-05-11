@@ -5,11 +5,16 @@ const DELETE_SPOT = "spots/DELETE_SPOT"
 const GET_SPOT_BY_SPOTID = "spots/GET_SPOT_BY_SPOTID"
 const CREATE_SPOT = "spots/CREATE_SPOT"
 const UPDATE_SPOT = "spots/UPDATE_SPOT"
+const CLEAN_UP = "spots/CLEAN_UP"
 
 export const loadSpots = (spots) => ({
     type: LOAD_SPOTS,
     spots
 
+})
+
+export const cleanUp = () => ({
+    type: CLEAN_UP
 })
 
 export const createSpot = (spot) => ({
@@ -81,22 +86,15 @@ export const createASpot = (payload) => async dispatch => {
 }
 
 export const updateSpotThunk = (payload) => async dispatch => {
-    const { id, address, city, state, country, lat, lng, name, description, price, spotImages } = payload
+    const { id, address, city, state, country, lat, lng, name, description, price } = payload
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, address, city, state, country, lat, lng, name, description, price })
     })
     if (response.ok) {
+        console.log(response)
         const spot = await response.json()
-        console.log(spot)
-        for (let i = 0; i < spotImages.length; i++) {
-            await csrfFetch(`/api/spots/${spot.id}/images`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(spotImages[i])
-            })
-        }
         dispatch(updateSpot(spot))
         return spot
     }
@@ -161,13 +159,9 @@ const spotsReducer = (state = initialState, action) => {
             newState.allSpots[action.spot.id] = action.spot
             return newState
         }
-        // case CREATE_SPOT_IMAGE: {
-        //     // const newState = Object.assign({}, state)
-        //     const newState = { ...state, singleSpot: { ...state.singleSpot, SpotImages: [...singleSpot.SpotImages] } }
-        //     newState.singleSpot.SpotImages = [...newState.singleSpot.SpotImages]
-        //     newState.singleSpot.SpotImages.push(action.spot)
-        //     return newState
-        // }
+        case CLEAN_UP: {
+            return initialState
+        }
         default:
             return state;
 

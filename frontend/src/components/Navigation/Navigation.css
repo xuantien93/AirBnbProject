@@ -1,3 +1,14 @@
+:root {
+    --bg: #242526;
+    --bg-accent: #484a4d;
+    --text-color: #dadce1;
+    --nav-size: 60px;
+    --border: 1px solid #474a4d;
+    --border-radius: 8px;
+    --speed: 500ms;
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -77,6 +88,57 @@
     background: transparent;
 }
 
+.user-menu {
+    position: absolute;
+    top: 54px;
+    right: 0px;
+    width: 160px;
+    transform: translateX(-15%);
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    box-shadow: 1px 1px 2px grey;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
+.user-menu-content {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 90%;
+    text-align: center;
+}
+
+.manage-spots-button {
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 2px;
+    padding: 5px 5px 5px 10px;
+    width: 100%;
+}
+
+.manage-spots-button:hover {
+    box-shadow: 1px 1px 2px grey;
+    background-color: rgb(244, 244, 244);
+}
+
+.manage-reviews-button {
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 2px;
+    padding: 5px 12px;
+}
+
+.manage-reviews-button:hover {
+    box-shadow: 1px 1px 2px grey;
+    background-color: rgb(244, 244, 244);
+}
+
 .profile-button-icon {
     background: transparent;
     cursor: pointer;
@@ -112,4 +174,28 @@
     border-radius: 15px;
     padding: 20px;
     width: 30em;
+}
+
+.open-modal-menu {
+    position: absolute;
+    top: 54px;
+    right: 0px;
+    width: 160px;
+    transform: translateX(-15%);
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    box-shadow: 1px 1px 2px grey;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    overflow: hidden;
+    transition: height var(--speed) ease;
+}
+
+.open-modal-menu>li {
+    cursor: pointer;
+    list-style-type: none;
+}
+
+button {
+    cursor: pointer;
 }

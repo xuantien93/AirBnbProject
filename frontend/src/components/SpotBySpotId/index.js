@@ -28,7 +28,7 @@ const SpotBySpotId = () => {
 
     let previewImg = [];
     let nonPreviewImg = [];
-    // console.log(spot.SpotImages)
+
     if (spot.SpotImages && spot.SpotImages.length > 0) {
         previewImg = spot.SpotImages.find(image => image.preview === true)
         nonPreviewImg = spot.SpotImages.filter(image => image.preview === false)
