@@ -625,7 +625,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         }
     })
     // const jsonspot = spot.toJSON() // 10
-    console.log(spot)
+    // console.log(spot)
     if (!spot) {
         res.status(404)
         return res.json({

@@ -25,18 +25,49 @@ const CreateSpotForm = ({ spot, update }) => {
     const [img2, setImg2] = useState('')
     const [img3, setImg3] = useState('')
     const [img4, setImg4] = useState('')
+    const [submitted, setSubmitted] = useState(false)
     const [errors, setErrors] = useState({})
 
 
     const user = useSelector(state => state.session.user)
 
-    // useEffect(() => {
-    //     dispatch(fetchSpots())
-    // }, [dispatch])
 
     useEffect(() => {
-        setErrors({})
-    }, [dispatch])
+        const error = {}
+        if (!address) error.address = 'Address is required';
+        if (!state) error.state = 'State is required';
+        if (!city) error.city = 'City is required';
+        if (!country) error.country = 'Country is required';
+        if (!title) error.title = 'Name is required';
+        if (description.length < 30) error.description = 'Description needs a minimum of 30 characters';
+        if (!price) error.price = 'Price is required';
+        if (!previewImage && !update) error.prevImg = 'Preview Image is required';
+        if (!(+price)) error.price = 'Price must be valid number'
+
+        const imageExtensions = ['.png', '.jpg', '.jpeg']
+
+        if (previewImage && !imageExtensions.includes(previewImage.slice(-5))) {
+            error.prevImg = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        }
+        if (img1 && !imageExtensions.includes(img1.slice(-5))) {
+            error.img1 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        }
+        if (img2 && !imageExtensions.includes(img2.slice(-5))) {
+            error.img2 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        }
+        if (img3 && !imageExtensions.includes(img3.slice(-5))) {
+            error.img3 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        }
+        if (img4 && !imageExtensions.includes(img4.slice(-5))) {
+            error.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        }
+
+        setErrors(error)
+    }, [country, address, state, city, title, description, price, previewImage])
+
+    // useEffect(() => {
+    //     setErrors({})
+    // }, [dispatch])
 
     if (!user) {
         history.push("/")
@@ -44,38 +75,38 @@ const CreateSpotForm = ({ spot, update }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const errors = {}
+        // const error = {}
+        setSubmitted(true)
+        // if (!address) error.address = 'Address is required';
+        // if (!state) error.state = 'State is required';
+        // if (!city) error.city = 'City is required';
+        // if (!country) error.country = 'Country is required';
+        // if (!title) error.title = 'Name is required';
+        // if (description.length < 30) error.description = 'Description needs a minimum of 30 characters';
+        // if (!price) error.price = 'Price is required';
+        // if (!previewImage) error.prevImg = 'Preview Image is required';
+        // if (!(+price)) error.price = 'Price must be valid number'
 
-        if (!address) errors.address = 'Address is required';
-        if (!state) errors.state = 'State is required';
-        if (!city) errors.city = 'City is required';
-        if (!country) errors.country = 'Country is required';
-        if (!title) errors.title = 'Name is required';
-        if (description.length < 30) errors.description = 'Description needs a minimum of 30 characters';
-        if (!price) errors.price = 'Price is required';
-        if (!previewImage) errors.prevImg = 'Preview Image is required';
-        if (!(+price)) errors.price = 'Price must be valid number'
+        // const imageExtensions = ['.png', '.jpg', '.jpeg']
 
-        const imageExtensions = ['.png', '.jpg', '.jpeg']
-
-        if (previewImage && !imageExtensions.includes(previewImage.slice(-5))) {
-            errors.prevImg = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        }
-        if (img1 && !imageExtensions.includes(img1.slice(-5))) {
-            errors.img1 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        }
-        if (img2 && !imageExtensions.includes(img2.slice(-5))) {
-            errors.img2 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        }
-        if (img3 && !imageExtensions.includes(img3.slice(-5))) {
-            errors.img3 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        }
-        if (img4 && !imageExtensions.includes(img4.slice(-5))) {
-            errors.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        }
+        // if (previewImage && !imageExtensions.includes(previewImage.slice(-5))) {
+        //     error.prevImg = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        // }
+        // if (img1 && !imageExtensions.includes(img1.slice(-5))) {
+        //     error.img1 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        // }
+        // if (img2 && !imageExtensions.includes(img2.slice(-5))) {
+        //     error.img2 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        // }
+        // if (img3 && !imageExtensions.includes(img3.slice(-5))) {
+        //     error.img3 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        // }
+        // if (img4 && !imageExtensions.includes(img4.slice(-5))) {
+        //     error.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
+        // }
 
 
-        setErrors(errors)
+        // setErrors(error)
 
         const imgURLs = [{ url: previewImage, preview: true }]
         if (img1.length) {
@@ -98,13 +129,14 @@ const CreateSpotForm = ({ spot, update }) => {
             city,
             state,
             country,
-            lat: 1,
-            lng: 1,
+            lat: latitude,
+            lng: longitude,
             name: title,
             description,
             price: Number(price),
-            spotImages: update === true ? spot.spotImages : imgURLs
+            spotImages: imgURLs
         }
+
 
 
         if (update) {
@@ -112,8 +144,10 @@ const CreateSpotForm = ({ spot, update }) => {
         }
 
         let spotInfo;
+        console.log(Object.values(errors))
         if (!Object.values(errors).length) {
             spotInfo = await dispatch(update === true ? updateSpotThunk(payload) : createASpot(payload))
+            console.log(spotInfo)
         }
 
         if (spotInfo) {
@@ -124,12 +158,12 @@ const CreateSpotForm = ({ spot, update }) => {
     return (
         <div className="form-container">
             <div className="create-spot-form-page">
-                <h1 className="create-spot-title">Create a Spot</h1>
+                <h1 className="create-spot-title">{update === true ? "Update a Spot" : "Create a Spot"}</h1>
                 <form onSubmit={handleSubmit} className="create-spot-form">
                     <h4>Where's your place located?</h4>
                     <p>Guests will only get your exact address once they book a reservation</p>
                     <label>Country:</label>
-                    {errors.country && <p className="error-text">{errors.country}</p>}
+                    {errors.country && submitted && < p className="error-text">{errors.country}</p>}
                     <input
                         type="text"
                         value={country}
@@ -139,7 +173,7 @@ const CreateSpotForm = ({ spot, update }) => {
                     ></input>
 
                     <label>Street Address:</label>
-                    {errors.address && <p className="error-text">{errors.address}</p>}
+                    {errors.address && submitted && <p className="error-text">{errors.address}</p>}
                     <input
                         type="text"
                         value={address}
@@ -150,7 +184,7 @@ const CreateSpotForm = ({ spot, update }) => {
 
                     <div className="city-box">
                         <label>City:</label>
-                        {errors.city && <p className="error-text">{errors.city}</p>}
+                        {errors.city && submitted && <p className="error-text">{errors.city}</p>}
                         <input
                             type="text"
                             value={city}
@@ -162,7 +196,7 @@ const CreateSpotForm = ({ spot, update }) => {
 
                     <div className="state-box">
                         <label>State:</label>
-                        {errors.state && <p className="error-text">{errors.state}</p>}
+                        {errors.state && submitted && <p className="error-text">{errors.state}</p>}
                         <input
                             type="text"
                             value={state}
@@ -177,7 +211,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             type="text"
                             value={latitude}
                             onChange={(e) => setLatitude(e.target.value)}
-                            placeholder="Latitude"
+                            placeholder="Optional"
                         ></input>
                     </div>
                     <div className="lng-box">
@@ -186,7 +220,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             type="text"
                             value={longitude}
                             onChange={(e) => setLongtitude(e.target.value)}
-                            placeholder="Longtitude"
+                            placeholder="Optional"
                         ></input>
                     </div>
                     <div className="line"></div>
@@ -202,7 +236,7 @@ const CreateSpotForm = ({ spot, update }) => {
                         cols='44'
 
                     ></textarea>
-                    {errors.description && <p className="error-text">{errors.description}</p>}
+                    {errors.description && submitted && <p className="error-text">{errors.description}</p>}
                     <div className="line"></div>
                     <div className="spot-title">
                         <h4>Create a title for your spot</h4>
@@ -214,7 +248,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             placeholder="Name of your spot"
 
                         ></input>
-                        {errors.title && <p className="error-text">{errors.title}</p>}
+                        {errors.title && submitted && <p className="error-text">{errors.title}</p>}
                     </div>
                     <div className="line"></div>
                     <div className="spot-price-box">
@@ -227,10 +261,10 @@ const CreateSpotForm = ({ spot, update }) => {
                             placeholder="Price per night (USD)"
 
                         ></input>
-                        {errors.price && <p className="error-text">{errors.price}</p>}
+                        {errors.price && submitted && <p className="error-text">{errors.price}</p>}
                     </div>
                     <div className="line"></div>
-                    <div className="spot-image-upload-box">
+                    {!update && (<div className="spot-image-upload-box">
                         <h4>Liven up your spot with photos</h4>
                         <p>Submit a link to at least one photo to publish your spot</p>
                         <div className="image-inputs">
@@ -241,7 +275,7 @@ const CreateSpotForm = ({ spot, update }) => {
                                 placeholder="Preview Image URL"
 
                             ></input>
-                            {errors.prevImg && <p className="error-text">{errors.prevImg}</p>}
+                            {errors.prevImg && submitted && <p className="error-text">{errors.prevImg}</p>}
                             <input
                                 type="text"
                                 value={img1}
@@ -271,11 +305,11 @@ const CreateSpotForm = ({ spot, update }) => {
                             >
                             </input>
                         </div>
-                    </div>
-                    <button type="submit" className="submit-spot-form-button">Create Spot</button>
+                    </div>)}
+                    <button type="submit" className="submit-spot-form-button">{update === true ? "Update Spot" : "Create Spot"}</button>
                 </form>
             </div>
-        </div>
+        </div >
     )
 
 }

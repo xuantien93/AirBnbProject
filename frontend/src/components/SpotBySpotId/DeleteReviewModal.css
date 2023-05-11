@@ -1,0 +1,19 @@
+.delete-review-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.delete-review-modal-button {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0px;
+}
+
+.delete-spot-modal-button>button {
+    padding: 5px 5px;
+    margin: 5px 0px;
+    box-shadow: 1px 2px 2px;
+}

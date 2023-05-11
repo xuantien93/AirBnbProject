@@ -9,9 +9,7 @@ import DeleteReviewModal from "./DeleteReviewModal"
 
 const SpotReviews = ({ reviews, spotId }) => {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.session)
-    const reviewObj = useSelector(state => state.reviews.spot)
-    // const reviews = Object.values(reviewObj)
+    const user = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.singleSpot)
 
 
@@ -63,12 +61,12 @@ const SpotReviews = ({ reviews, spotId }) => {
                     {newReviews.map(review => {
                         return !review.User ? null :
                             (
-                                <div>
+                                <div key={review.id}>
                                     <div className="review-detail">
                                         <h3>{review.User.firstName} {review.User.lastName}</h3>
                                         <p className="review-date">{months[review.createdAt.slice(5, 7)]} {review.createdAt.slice(0, 4)}</p>
                                         <p>{review.review}</p>
-                                        {review.userId === user?.id &&
+                                        {(review.userId === user?.id) &&
                                             <div>
                                                 <OpenModalButton
                                                     buttonText="Delete Review"
