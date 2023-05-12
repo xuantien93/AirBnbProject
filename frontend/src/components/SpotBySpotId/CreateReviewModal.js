@@ -1,19 +1,20 @@
 import { useState } from "react"
 import { useModal } from "../../context/Modal"
-import { useDispatch } from "react-redux"
-import { createReviewThunk, getAllReviewsBySpotIdThunk } from "../../store/review"
+import { useDispatch, useSelector } from "react-redux"
+import { createReviewThunk, updateReviewThunk } from "../../store/review"
 import "./CreateReviewModal.css"
 import { fetchSingleSpot } from "../../store/spots"
 
 
-const CreateReviewModal = ({ spotId }) => {
+const CreateReviewModal = ({ spotId, manageReview, spotName, reviewId, reviewSpot }) => {
 
     const [review, setReview] = useState("")
     const [stars, setStars] = useState("")
 
     const { closeModal } = useModal()
     const [activeRating, setActiveRating] = useState(1)
-
+    const user = useSelector(state => state.session.user)
+    console.log(reviewSpot)
     const dispatch = useDispatch()
 
 
@@ -22,23 +23,22 @@ const CreateReviewModal = ({ spotId }) => {
         e.preventDefault()
 
         const payload = {
-            id: spotId,
+            id: manageReview === true ? reviewId : spotId,
             review,
             stars
         }
 
 
-        let newReview = await dispatch(createReviewThunk(payload))
+        let newReview = await dispatch(manageReview === true ? updateReviewThunk(payload, reviewSpot) : createReviewThunk(payload, user))
         if (newReview) {
             dispatch(fetchSingleSpot(spotId)).then(() => closeModal())
         }
-        window.location.reload(false);
     }
 
     return (
         <form onSubmit={handleClick}>
             <div className="create-review-modal">
-                <h2>How was your stay?</h2>
+                {manageReview && <h2>How was your stay {`at ${spotName}`}?</h2>}
                 <textarea
                     className="review-modal-text"
                     placeholder="Leave your review here..."

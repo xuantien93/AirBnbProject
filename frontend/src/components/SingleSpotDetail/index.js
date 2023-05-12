@@ -39,11 +39,12 @@ const SingleSpotDetail = ({ spot, manage }) => {
                 <span>{spot.city}, </span>
                 <span>{spot.state}</span>
             </div>
-            <span className='star-icon'><i className='fa-solid fa-star'></i> {spot.avgRating <= 5 ? spot.avgRating : 'New'}</span>
-            <div className='price'><span>${Number(spot.price).toFixed(2)}</span> night</div>
+            <span className='star-icon'><i className='fa-solid fa-star'></i> {!spot.avgRating.length ? "New" : spot.avgRating}</span>
+            <div><span className='price'>${Number(spot.price).toFixed(2)}</span> night</div>
             {user?.id === spot.ownerId && manage && <div className='update-delete-button'>
-                <button onClick={handleUpdate}>Update</button>
+                <button onClick={handleUpdate} className='update-button'>Update</button>
                 <OpenModalButton
+                    className="delete-button"
                     buttonText='Delete'
                     modalComponent={<DeleteModal spotId={spot.id} />}
                 />

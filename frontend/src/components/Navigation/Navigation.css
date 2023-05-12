@@ -194,8 +194,37 @@
 .open-modal-menu>li {
     cursor: pointer;
     list-style-type: none;
+    background: transparent;
+    cursor: pointer;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 2px;
+    padding: 5px 5px 5px 10px;
+    width: 100%;
+    text-align: center;
+    margin: 3px 0px;
+}
+
+.open-modal-menu>li:hover {
+    background-color: rgb(244, 244, 244);
+    box-shadow: 1px 1px 2px grey;
 }
 
 button {
     cursor: pointer;
+}
+
+.log-out-button {
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 2px;
+    padding: 5px 38px;
+    width: 100%;
+    text-align: center;
+}
+
+.log-out-button:hover {
+    box-shadow: 1px 1px 2px grey;
+    background-color: rgb(244, 244, 244);
 }

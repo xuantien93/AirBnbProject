@@ -51,32 +51,39 @@ const SpotBySpotId = () => {
                         {nonPreviewImg.length > 0 && nonPreviewImg.map(image =>
                             <img key={image.id} src={image.url}></img>)}
                     </div>
-                    <div className="spot-detail">
-                        <div className="spot-description">
-                            <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-                            <p>{spot.description}</p>
+                </div>
+                <div className="spot-detail">
+                    <div className="spot-description">
+                        <div className="hosted-description">
+                            <div className="hosted-to-reserve">
+                                <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+                                <p>{spot.description}</p>
+                            </div>
+                            <div className="spot-info-box">
+                                <div className="price-review-rating">
+                                    <div className="price-review">
+
+                                        <p><span className="price">${Number(spot.price).toFixed(2)}</span> per night</p>
+                                        {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
+                                            : <h5><i className="fa-solid fa-star"></i> New</h5>
+                                        }
+                                    </div>
+                                    <button onClick={handleReserve} className="reserve-button">Reserve</button>
+                                </div>
+                            </div>
                         </div>
-                        <div className="spot-info-box">
-                            <div className="price-review-rating">
-                                <p>${Number(spot.price).toFixed(2)} per night</p>
-                                {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
-                                    : <h5><i className="fa-solid fa-star"></i> New</h5>
-                                }
-                            </div>
-                            <button onClick={handleReserve} className="reserve-button">Reserve</button>
-                            <div className="line"></div>
-                            <div className="spot-reviews-details">
-                                {reviews.length ?
-                                    <>
-                                        <h3><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
-                                        <SpotReviews reviews={reviews} spotId={id} />
-                                    </>
-                                    : <>
-                                        <h3><i className="fa-solid fa-star"></i> New</h3>
-                                        <SpotReviews reviews={reviews} new={true} spotId={id} />
-                                    </>
-                                }
-                            </div>
+                        <div className="line"></div>
+                        <div className="spot-reviews-details">
+                            {reviews.length ?
+                                <>
+                                    <h3><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
+                                    <SpotReviews reviews={reviews} spotId={id} />
+                                </>
+                                : <>
+                                    <h3><i className="fa-solid fa-star"></i> New</h3>
+                                    <SpotReviews reviews={reviews} spotId={id} />
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
