@@ -101,19 +101,6 @@ export const updateSpotThunk = (payload) => async dispatch => {
 }
 
 
-// export const createSpotImageThunk = (spotId, body) => async dispatch => {
-//     const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(body)
-//     })
-//     if (response.ok) {
-//         const data = await response.json()
-//         dispatch(createSpotImage(data))
-//         console.log('this is dispatch image data', data)
-//         return data
-//     }
-// }
 
 export const deleteSingleSpot = (spotId) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {

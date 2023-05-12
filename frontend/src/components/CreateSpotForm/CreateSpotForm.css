@@ -1,19 +1,19 @@
 .form-container {
     display: flex;
-    flex-flow: column;
-    width: 400px;
     justify-content: center;
     height: fit-content;
-    background-color: rgb(246, 244, 244);
-
 }
 
 .create-spot-form-page {
     display: flex;
-    flex-flow: column;
+    flex-flow: column wrap;
+    width: 400px;
     padding: 0px 20px;
-    border: 1px solid black
+    border: 1px solid black;
+    align-items: center;
+    background-color: rgb(246, 244, 244);
 }
+
 
 .description-form-box {
     margin: 7px 0px;

@@ -17,6 +17,10 @@ const ManageSpot = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
+    if (!user) {
+        history.push("/")
+    }
+
     useEffect(() => {
         dispatch(fetchSpots())
             .then(() => setLoading(false))

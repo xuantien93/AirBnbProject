@@ -4,14 +4,18 @@ import { useModal } from "../../context/Modal";
 import { deleteReviewThunk } from "../../store/review";
 import "./DeleteReviewModal.css"
 
-const DeleteReviewModal = ({ reviewId, spotId }) => {
+const DeleteReviewModal = ({ reviewId, spotId, manageReview }) => {
     const { closeModal } = useModal()
     const dispatch = useDispatch();
     const history = useHistory();
 
     const deleteYes = () => {
         dispatch(deleteReviewThunk(reviewId))
-        history.push(`/spots/${spotId}`);
+        if (manageReview) {
+            history.push(`/reviews/current`)
+        } else {
+            history.push(`/spots/${spotId}`);
+        }
         closeModal();
     }
 

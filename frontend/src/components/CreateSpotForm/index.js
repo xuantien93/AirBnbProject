@@ -31,6 +31,10 @@ const CreateSpotForm = ({ spot, update }) => {
 
     const user = useSelector(state => state.session.user)
 
+    if (!user) {
+        history.push("/")
+    }
+
 
     useEffect(() => {
         const error = {}
@@ -44,69 +48,34 @@ const CreateSpotForm = ({ spot, update }) => {
         if (!previewImage && !update) error.prevImg = 'Preview Image is required';
         if (!(+price)) error.price = 'Price must be valid number'
 
-        const imageExtensions = ['.png', '.jpg', '.jpeg']
+        const imageExtensions = ['png', 'jpg', 'jpeg']
 
-        if (previewImage && !imageExtensions.includes(previewImage.slice(-5))) {
+        if (previewImage && !imageExtensions.includes(previewImage.slice(-4))) {
             error.prevImg = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
-        if (img1 && !imageExtensions.includes(img1.slice(-5))) {
+        if (img1 && !imageExtensions.includes(img1.slice(-4))) {
             error.img1 = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
-        if (img2 && !imageExtensions.includes(img2.slice(-5))) {
+        if (img2 && !imageExtensions.includes(img2.slice(-4))) {
             error.img2 = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
-        if (img3 && !imageExtensions.includes(img3.slice(-5))) {
+        if (img3 && !imageExtensions.includes(img3.slice(-4))) {
             error.img3 = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
-        if (img4 && !imageExtensions.includes(img4.slice(-5))) {
+        if (img4 && !imageExtensions.includes(img4.slice(-4))) {
             error.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
+        // console.log("this is spot", previewImage.slice(-4))
 
         setErrors(error)
     }, [country, address, state, city, title, description, price, previewImage])
 
-    // useEffect(() => {
-    //     setErrors({})
-    // }, [dispatch])
-
-    if (!user) {
-        history.push("/")
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        // const error = {}
+
         setSubmitted(true)
-        // if (!address) error.address = 'Address is required';
-        // if (!state) error.state = 'State is required';
-        // if (!city) error.city = 'City is required';
-        // if (!country) error.country = 'Country is required';
-        // if (!title) error.title = 'Name is required';
-        // if (description.length < 30) error.description = 'Description needs a minimum of 30 characters';
-        // if (!price) error.price = 'Price is required';
-        // if (!previewImage) error.prevImg = 'Preview Image is required';
-        // if (!(+price)) error.price = 'Price must be valid number'
 
-        // const imageExtensions = ['.png', '.jpg', '.jpeg']
-
-        // if (previewImage && !imageExtensions.includes(previewImage.slice(-5))) {
-        //     error.prevImg = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        // }
-        // if (img1 && !imageExtensions.includes(img1.slice(-5))) {
-        //     error.img1 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        // }
-        // if (img2 && !imageExtensions.includes(img2.slice(-5))) {
-        //     error.img2 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        // }
-        // if (img3 && !imageExtensions.includes(img3.slice(-5))) {
-        //     error.img3 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        // }
-        // if (img4 && !imageExtensions.includes(img4.slice(-5))) {
-        //     error.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
-        // }
-
-
-        // setErrors(error)
 
         const imgURLs = [{ url: previewImage, preview: true }]
         if (img1.length) {
@@ -121,7 +90,6 @@ const CreateSpotForm = ({ spot, update }) => {
         if (img4.length) {
             imgURLs.push({ url: img4, preview: false })
         }
-        console.log("this is spot", spot)
 
         const payload = {
             ownerId: user.id,
@@ -144,10 +112,10 @@ const CreateSpotForm = ({ spot, update }) => {
         }
 
         let spotInfo;
-        console.log(Object.values(errors))
+        // console.log(Object.values(errors))
         if (!Object.values(errors).length) {
             spotInfo = await dispatch(update === true ? updateSpotThunk(payload) : createASpot(payload))
-            console.log(spotInfo)
+            // console.log(spotInfo)
         }
 
         if (spotInfo) {
