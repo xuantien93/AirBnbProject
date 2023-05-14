@@ -40,6 +40,7 @@ const SpotReviews = ({ reviews, spotId }) => {
 
     const newReviews = reviews.toReversed()
 
+
     return (
         <div>
             {(user?.id !== spot.ownerId) && !(reviews.find(review => review.userId === user.id)) &&
@@ -62,7 +63,7 @@ const SpotReviews = ({ reviews, spotId }) => {
                                         <h3>{review.User.firstName} {review.User.lastName}</h3>
                                         {/* <p className="review-date">{months[review.createdAt.slice(5, 7)]} {review.createdAt.slice(0, 4)}</p> */}
                                         <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
-                                        <p>{review.review}</p>
+                                        <p className="review-review">{review.review}</p>
                                         {(review.userId === user?.id) &&
                                             <div>
                                                 <OpenModalButton

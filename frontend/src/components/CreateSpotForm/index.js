@@ -48,7 +48,7 @@ const CreateSpotForm = ({ spot, update }) => {
         if (!previewImage && !update) error.prevImg = 'Preview Image is required';
         if (!(+price)) error.price = 'Price must be valid number'
 
-        const imageExtensions = ['png', 'jpg', 'jpeg']
+        const imageExtensions = ['.png', '.jpg', 'jpeg']
 
         if (previewImage && !imageExtensions.includes(previewImage.slice(-4))) {
             error.prevImg = "Please make sure your images end with either .png, .jpg, or .jpeg"
@@ -65,7 +65,7 @@ const CreateSpotForm = ({ spot, update }) => {
         if (img4 && !imageExtensions.includes(img4.slice(-4))) {
             error.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
-        // console.log("this is spot", previewImage.slice(-4))
+        console.log("this is spot", previewImage.slice(-4))
 
         setErrors(error)
     }, [country, address, state, city, title, description, price, previewImage])
@@ -130,66 +130,74 @@ const CreateSpotForm = ({ spot, update }) => {
                 <form onSubmit={handleSubmit} className="create-spot-form">
                     <h4>Where's your place located?</h4>
                     <p>Guests will only get your exact address once they book a reservation</p>
-                    <label>Country:</label>
+                    <label>Country</label>
                     {errors.country && submitted && < p className="error-text">{errors.country}</p>}
                     <input
                         type="text"
                         value={country}
+                        className="create-spot-label"
                         onChange={(e) => setCountry(e.target.value)}
                         placeholder="Country"
 
                     ></input>
 
-                    <label>Street Address:</label>
+                    <label>Street Address</label>
                     {errors.address && submitted && <p className="error-text">{errors.address}</p>}
                     <input
                         type="text"
                         value={address}
+                        className="create-spot-label"
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder="Address"
 
                     ></input>
+                    <div className="city-state-box">
+                        <div className="city-box">
+                            <label>City</label>
+                            {errors.city && submitted && <p className="error-text">{errors.city}</p>}
+                            <input
+                                type="text"
+                                value={city}
+                                className="create-spot-label"
+                                onChange={(e) => setCity(e.target.value)}
+                                placeholder="City"
 
-                    <div className="city-box">
-                        <label>City:</label>
-                        {errors.city && submitted && <p className="error-text">{errors.city}</p>}
-                        <input
-                            type="text"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            placeholder="City"
+                            ></input>
+                        </div>
 
-                        ></input>
+                        <div className="state-box">
+                            <label>State</label>
+                            {errors.state && submitted && <p className="error-text">{errors.state}</p>}
+                            <input
+                                type="text"
+                                value={state}
+                                className="create-spot-input"
+                                onChange={(e) => setState(e.target.value)}
+                                placeholder="State"
+                            ></input>
+                        </div>
                     </div>
-
-                    <div className="state-box">
-                        <label>State:</label>
-                        {errors.state && submitted && <p className="error-text">{errors.state}</p>}
-                        <input
-                            type="text"
-                            value={state}
-                            onChange={(e) => setState(e.target.value)}
-                            placeholder="State"
-                        ></input>
-                    </div>
-
-                    <div className="lat-box">
-                        <label>Latitude:</label>
-                        <input
-                            type="text"
-                            value={latitude}
-                            onChange={(e) => setLatitude(e.target.value)}
-                            placeholder="Optional"
-                        ></input>
-                    </div>
-                    <div className="lng-box">
-                        <label>Longtitude:</label>
-                        <input
-                            type="text"
-                            value={longitude}
-                            onChange={(e) => setLongtitude(e.target.value)}
-                            placeholder="Optional"
-                        ></input>
+                    <div className="lat-lng-box">
+                        <div className="lat-box">
+                            <label>Latitude</label>
+                            <input
+                                type="text"
+                                value={latitude}
+                                className="create-spot-label"
+                                onChange={(e) => setLatitude(e.target.value)}
+                                placeholder="Optional"
+                            ></input>
+                        </div>
+                        <div className="lng-box">
+                            <label>Longtitude</label>
+                            <input
+                                type="text"
+                                value={longitude}
+                                className="create-spot-input"
+                                onChange={(e) => setLongtitude(e.target.value)}
+                                placeholder="Optional"
+                            ></input>
+                        </div>
                     </div>
                     <div className="line"></div>
                     <h4>Describe your place to guests</h4>
@@ -212,6 +220,7 @@ const CreateSpotForm = ({ spot, update }) => {
                         <input
                             type="text"
                             value={title}
+                            className="create-title-label"
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Name of your spot"
 
@@ -225,6 +234,7 @@ const CreateSpotForm = ({ spot, update }) => {
                         $ <input
                             type="text"
                             value={price}
+                            className="create-spot-price"
                             onChange={(e) => setPrice(e.target.value)}
                             placeholder="Price per night (USD)"
 
@@ -239,6 +249,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             <input
                                 type="text"
                                 value={previewImage}
+                                className="create-spot-label"
                                 onChange={(e) => setPreviewImage(e.target.value)}
                                 placeholder="Preview Image URL"
 
@@ -247,6 +258,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             <input
                                 type="text"
                                 value={img1}
+                                className="create-spot-label"
                                 onChange={(e) => setImg1(e.target.value)}
                                 placeholder="Image URL"
                             >
@@ -254,6 +266,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             <input
                                 type="text"
                                 value={img2}
+                                className="create-spot-label"
                                 onChange={(e) => setImg2(e.target.value)}
                                 placeholder="Image URL"
                             >
@@ -261,6 +274,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             <input
                                 type="text"
                                 value={img3}
+                                className="create-spot-label"
                                 onChange={(e) => setImg3(e.target.value)}
                                 placeholder="Image URL"
                             >
@@ -268,6 +282,7 @@ const CreateSpotForm = ({ spot, update }) => {
                             <input
                                 type="text"
                                 value={img4}
+                                className="create-spot-label"
                                 onChange={(e) => setImg4(e.target.value)}
                                 placeholder="Image URL"
                             >

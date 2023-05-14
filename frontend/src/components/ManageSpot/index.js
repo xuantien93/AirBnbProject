@@ -30,19 +30,20 @@ const ManageSpot = () => {
     if (loading) {
         return <div>Loading...</div>
     }
+    console.log(currentUserSpot)
 
     return (
         <div className="manage-spot-page">
             <div className="manage-spot-header">
                 {currentUserSpot.length ?
-                    <h1 className="manage-spot-title">Manage your spots</h1> : <h1 className="manage-spot-title">Add a spot</h1>
+                    <h1 className="manage-spot-title">Manage your spots</h1> : <h1 className="manage-spot-title">Add your first spot!</h1>
                 }
-                <button
+                {!currentUserSpot.length && <button
                     className="create-new-spot-manage-button"
                     onClick={(e) => history.push(`/spots/new`)}
                 >
                     Create a New Spot
-                </button>
+                </button>}
             </div>
             <div className="current-user-spot">
                 {currentUserSpot.length > 0 && currentUserSpot.map(spot =>

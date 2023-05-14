@@ -1,4 +1,5 @@
 .create-review-modal {
+    padding-top: 30px;
     display: flex;
     align-items: center;
     flex-flow: column;
@@ -10,7 +11,7 @@
     background-color: #ff5A5F;
     width: 150px;
     margin-top: 10px;
-    padding: 0 0 3px 10px;
+    padding: 0 0 3px 3px;
     height: 21px;
     border-radius: 10px;
     box-shadow: 1px 1px 2px black;
@@ -18,8 +19,13 @@
 }
 
 .submit-review-button-modal:hover {
-    box-shadow: 2px 2px 2px black;
+    box-shadow: 3px 3px 3px grey;
     transition: ease-in .15s;
+}
+
+.submit-review-button-modal:disabled {
+    background-color: white;
+    color: lightgray;
 }
 
 .review-modal-text {

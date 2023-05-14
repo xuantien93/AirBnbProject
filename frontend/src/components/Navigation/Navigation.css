@@ -139,6 +139,19 @@
     background-color: rgb(244, 244, 244);
 }
 
+.manage-bookings-button {
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 2px;
+    padding: 5px 22px;
+}
+
+.manage-bookings-button:hover {
+    box-shadow: 1px 1px 2px grey;
+    background-color: rgb(244, 244, 244);
+}
+
 .profile-button-icon {
     background: transparent;
     cursor: pointer;
@@ -172,8 +185,10 @@
 
 #modal-content {
     border-radius: 15px;
-    padding: 20px;
-    width: 30em;
+    padding: 30px;
+    width: 40%;
+    display: flex;
+    justify-content: center;
 }
 
 .open-modal-menu {

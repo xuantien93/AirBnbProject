@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { deleteReviewThunk } from "../../store/review";
 import "./DeleteReviewModal.css"
+import { fetchSingleSpot } from "../../store/spots";
 
 const DeleteReviewModal = ({ reviewId, spotId, manageReview }) => {
     const { closeModal } = useModal()
@@ -11,6 +12,7 @@ const DeleteReviewModal = ({ reviewId, spotId, manageReview }) => {
 
     const deleteYes = () => {
         dispatch(deleteReviewThunk(reviewId))
+            .then(() => dispatch(fetchSingleSpot(spotId)))
         if (manageReview) {
             history.push(`/reviews/current`)
         } else {

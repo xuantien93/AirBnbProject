@@ -1,23 +1,90 @@
+/* .root {
+    font-family: 'Roboto', sans-serif;
+} */
+
 .form-container {
     display: flex;
-    justify-content: center;
-    height: fit-content;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
 }
 
 .create-spot-form-page {
     display: flex;
-    flex-flow: column wrap;
-    width: 400px;
-    padding: 0px 20px;
-    border: 1px solid black;
+    flex-direction: column;
+    gap: 10px;
+    /* border: 1px solid black; */
     align-items: center;
-    background-color: rgb(246, 244, 244);
+    /* background-color: green; */
+    width: 40%;
 }
 
+.create-spot-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-spot-label {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: rgb(218, 240, 247);
+}
+
+.create-spot-input {
+    background-color: rgb(218, 240, 247);
+}
+
+.city-state-box {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.city-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.state-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.lat-lng-box {
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.lat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.lng-box {
+    display: flex;
+    flex-direction: column;
+}
 
 .description-form-box {
     margin: 7px 0px;
+    width: 100%;
+    background-color: rgb(218, 240, 247);
 
+}
+
+.create-spot-price {
+    background-color: rgb(218, 240, 247);
+    width: 97%;
+    margin: 7px 0px;
+}
+
+.create-title-label {
+    background-color: rgb(218, 240, 247);
+    margin: 7px 0px;
+    width: 100%;
 }
 
 .spot-title {
@@ -28,17 +95,28 @@
 .image-inputs {
     display: flex;
     flex-flow: column;
-    margin: 4px;
-    padding: 6px 0px
+    /* margin: 4px;
+    padding: 6px 0px */
 }
 
 .image-inputs>input {
-    margin: 8px;
+    margin: 8px 0px;
 }
 
 .submit-spot-form-button {
     margin: 10px 0px;
     padding: 4px 10px;
-    width: fit-content;
     align-items: center;
+    background: transparent;
+    cursor: pointer;
+    background-color: rgb(255, 87, 87);
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 3px;
+    transition: all 0.3 ease 0s;
+    margin-top: 0.5rem;
+    color: white;
+}
+
+.submit-spot-form-button:hover {
+    box-shadow: 1px 1px 2px grey;
 }
