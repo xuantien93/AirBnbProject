@@ -3,20 +3,40 @@
     padding: 10px 0px;
 }
 
+.spot-id-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spot-id-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    /* border: 1px solid green; */
+    width: 80%;
+}
 
 .spot-description {
     display: flex;
     flex-direction: column;
+    width: 80%;
 }
 
 .hosted-description {
     display: flex;
     justify-content: space-between;
     /* border: 1px solid green */
+    width: 100%;
 }
 
 .hosted-to-reserve {
     width: 60%;
+}
+
+#description-tag {
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 .price-review {
@@ -30,16 +50,22 @@
     flex-direction: column;
     gap: 7px;
     background-color: white;
-    border: 2px solid rgb(50, 47, 47);
+    border: 2px solid rgb(195, 188, 188);
     border-radius: 3px;
     padding: 10px 10px;
 }
 
 .image-box {
     width: 80%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     display: flex;
+    height: 400px;
 
+}
+
+.image-box img {
+    padding: 3px;
+    border-radius: 7px;
 }
 
 .big-image {
@@ -48,20 +74,22 @@
 
 .big-image>img {
     width: 100%;
-    height: 100%;
     object-fit: cover;
+    height: 100%;
 }
 
 .small-image {
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     width: 50%;
+
 }
 
 .small-image>img {
     width: 50%;
     object-fit: cover;
+    height: 50%;
 
 }
 
@@ -69,14 +97,26 @@
     background: transparent;
     cursor: pointer;
     background-color: rgb(255, 87, 87);
-    border: 1px solid rgb(199, 192, 192);
+    border: 0.5px solid rgb(199, 192, 192);
     border-radius: 3px;
     padding: 5px 5px 5px 5px;
-    transition: all 0.3 ease 0s;
+    /* transition: all 0.3 ease 0s; */
     margin-top: 0.5rem;
     color: white;
 }
 
 .reserve-button:hover {
     box-shadow: 1px 1px 2px grey;
+}
+
+.review-detail {
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.review-review {
+    margin-bottom: 10px;
+    overflow-wrap: break-word
 }

@@ -39,7 +39,7 @@ const ManageReview = () => {
         <div className="manage-spot-page">
             <div className="manage-spot-header">
                 {reviews.length ?
-                    <h1 className="manage-spot-title">Manage your reviews</h1> : <h1 className="manage-spot-title">Add a review</h1>
+                    <h1 className="manage-spot-title">Manage your reviews</h1> : <h1 className="manage-spot-title">You currently have no reviews</h1>
                 }
                 <div>
                     {reviews.toReversed().map(review =>

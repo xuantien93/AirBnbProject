@@ -5,6 +5,9 @@ import './SpotBySpotId.css'
 import { fetchSingleSpot } from "../../store/spots"
 import { getAllReviewsBySpotIdThunk } from "../../store/review"
 import SpotReviews from "../SpotBySpotId/SpotReviews"
+import { useHistory } from "react-router-dom"
+import OpenModalButton from "../OpenModalButton"
+import CreateBookingModal from "../ManageBooking/CreateBookingModal"
 
 
 const SpotBySpotId = () => {
@@ -14,6 +17,7 @@ const SpotBySpotId = () => {
     const reviewObj = useSelector(state => state.reviews.spot)
     const user = useSelector(state => state.session.user)
     const reviews = Object.values(reviewObj)
+    const history = useHistory()
 
     useEffect(() => {
         dispatch(fetchSingleSpot(id))
@@ -34,9 +38,11 @@ const SpotBySpotId = () => {
         nonPreviewImg = spot.SpotImages.filter(image => image.preview === false)
     }
 
-    const handleReserve = () => {
-        alert("Feature coming soon!")
-    }
+    // const handleReserve = () => {
+    //     history.push(`/bookings/current`)
+    // }
+
+    // console.log("this is spot", spot)
 
     return (
 
@@ -59,7 +65,7 @@ const SpotBySpotId = () => {
                 <div className="hosted-description">
                     <div className="hosted-to-reserve">
                         <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-                        <p>{spot.description}</p>
+                        <p id="description-tag">{spot.description}</p>
                     </div>
                     <div className="spot-info-box">
                         <div className="price-review-rating">
@@ -70,7 +76,11 @@ const SpotBySpotId = () => {
                                     : <h5><i className="fa-solid fa-star"></i> New</h5>
                                 }
                             </div>
-                            <button onClick={handleReserve} className="reserve-button">Reserve</button>
+                            {/* <button onClick={handleReserve} className="reserve-button">Reserve</button> */}
+                            <OpenModalButton
+                                buttonText="Reserve"
+                                modalComponent={<CreateBookingModal spot={spot} />}
+                            />
                         </div>
                     </div>
                 </div>

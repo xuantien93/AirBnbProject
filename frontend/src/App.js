@@ -9,6 +9,7 @@ import CreateSpotForm from "./components/CreateSpotForm";
 import ManageSpot from "./components/ManageSpot";
 import UpdateForm from "./components/UpdateForm";
 import ManageReview from "./components/ManageReview";
+import ManageBooking from "./components/ManageBooking";
 
 
 
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path="/reviews/current">
             <ManageReview />
+          </Route>
+          <Route path="/bookings/current">
+            <ManageBooking />
           </Route>
           <Route path="/spots/:id/edit">
             <UpdateForm />
