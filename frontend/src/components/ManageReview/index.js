@@ -42,7 +42,7 @@ const ManageReview = () => {
                     <h1 className="manage-spot-title">Manage your reviews</h1> : <h1 className="manage-spot-title">Add a review</h1>
                 }
                 <div>
-                    {reviews.map(review =>
+                    {reviews.toReversed().map(review =>
                         review.userId === user.id && <div key={review.id}>
                             <div className="review-detail">
                                 <h3>{review.Spot.name}</h3>

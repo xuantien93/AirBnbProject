@@ -39,56 +39,58 @@ const SpotBySpotId = () => {
     }
 
     return (
-        <div className="spot-id">
-            <div className="spot-id-container">
+
+        <div className="spot-id-container">
+            <div className="spot-id-header">
                 <h1>{spot.name}</h1>
                 <h4>{spot.city}, {spot.state}, {spot.country}</h4>
-                <div className="image-box">
-                    <div className="big-image">
-                        <img src={previewImg ? previewImg.url : "https://i.imgur.com/IySASzx.jpg"}></img>
-                    </div>
-                    <div className="small-image">
-                        {nonPreviewImg.length > 0 && nonPreviewImg.map(image =>
-                            <img key={image.id} src={image.url}></img>)}
-                    </div>
+            </div>
+            <div className="image-box">
+                <div className="big-image">
+                    <img src={previewImg ? previewImg.url : "https://i.imgur.com/IySASzx.jpg"}></img>
                 </div>
-                <div className="spot-detail">
-                    <div className="spot-description">
-                        <div className="hosted-description">
-                            <div className="hosted-to-reserve">
-                                <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
-                                <p>{spot.description}</p>
-                            </div>
-                            <div className="spot-info-box">
-                                <div className="price-review-rating">
-                                    <div className="price-review">
-
-                                        <p><span className="price">${Number(spot.price).toFixed(2)}</span> per night</p>
-                                        {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
-                                            : <h5><i className="fa-solid fa-star"></i> New</h5>
-                                        }
-                                    </div>
-                                    <button onClick={handleReserve} className="reserve-button">Reserve</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="line"></div>
-                        <div className="spot-reviews-details">
-                            {reviews.length ?
-                                <>
-                                    <h3><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
-                                    <SpotReviews reviews={reviews} spotId={id} />
-                                </>
-                                : <>
-                                    <h3><i className="fa-solid fa-star"></i> New</h3>
-                                    <SpotReviews reviews={reviews} spotId={id} />
-                                </>
-                            }
-                        </div>
-                    </div>
+                <div className="small-image">
+                    {nonPreviewImg.length > 0 && nonPreviewImg.map(image =>
+                        <img key={image.id} src={image.url}></img>)}
                 </div>
             </div>
+
+            <div className="spot-description">
+                <div className="hosted-description">
+                    <div className="hosted-to-reserve">
+                        <h2>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</h2>
+                        <p>{spot.description}</p>
+                    </div>
+                    <div className="spot-info-box">
+                        <div className="price-review-rating">
+                            <div className="price-review">
+
+                                <p><span className="price">${Number(spot.price).toFixed(2)}</span> per night</p>
+                                {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
+                                    : <h5><i className="fa-solid fa-star"></i> New</h5>
+                                }
+                            </div>
+                            <button onClick={handleReserve} className="reserve-button">Reserve</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="line"></div>
+                <div className="spot-reviews-details">
+                    {reviews.length ?
+                        <>
+                            <h3><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
+                            <SpotReviews reviews={reviews} spotId={id} />
+                        </>
+                        : <>
+                            <h3><i className="fa-solid fa-star"></i> New</h3>
+                            <SpotReviews reviews={reviews} spotId={id} />
+                        </>
+                    }
+                </div>
+            </div>
+
         </div>
+
     )
 }
 

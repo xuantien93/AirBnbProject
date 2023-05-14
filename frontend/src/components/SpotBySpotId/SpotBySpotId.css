@@ -1,12 +1,8 @@
 .line {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid lightgray;
     padding: 10px 0px;
 }
 
-.spot-detail {
-    display: flex;
-    flex-direction: column;
-}
 
 .spot-description {
     display: flex;
@@ -19,6 +15,9 @@
     /* border: 1px solid green */
 }
 
+.hosted-to-reserve {
+    width: 60%;
+}
 
 .price-review {
     display: flex;
@@ -37,34 +36,33 @@
 }
 
 .image-box {
-    /* width: 100%; */
-    max-width: 1024px;
-    /* border: 1px solid black; */
+    width: 80%;
+    border: 1px solid black;
     display: flex;
-    /* flex-flow: row; */
-    align-self: center;
 
 }
 
 .big-image {
-    width: 47%;
-
+    width: 50%;
 }
 
 .big-image>img {
-    width: 30rem;
-    height: 23rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .small-image {
-    width: 50%;
     display: flex;
     flex-wrap: wrap;
+    border: 1px solid red;
+    width: 50%;
 }
 
 .small-image>img {
     width: 50%;
-    height: 49%;
+    object-fit: cover;
+
 }
 
 .reserve-button {

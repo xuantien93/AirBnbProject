@@ -172,8 +172,10 @@
 
 #modal-content {
     border-radius: 15px;
-    padding: 20px;
-    width: 30em;
+    padding: 30px;
+    width: 40%;
+    display: flex;
+    justify-content: center;
 }
 
 .open-modal-menu {

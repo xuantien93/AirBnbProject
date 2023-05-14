@@ -9,11 +9,40 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 10px 0px;
+    /* padding: 10px 0px; */
+
 }
 
-.delete-spot-modal-button>button {
-    padding: 5px 5px;
+.delete-review-button {
     margin: 5px 0px;
-    box-shadow: 1px 2px 2px;
+    padding: 4px 10px;
+    align-items: center;
+    background: transparent;
+    cursor: pointer;
+    background-color: rgb(255, 87, 87);
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 3px;
+    transition: all 0.3 ease 0s;
+    margin-top: 0.5rem;
+    color: white;
+}
+
+.delete-review-button:hover {
+    box-shadow: 1px 1px 2px grey;
+}
+
+.no-delete-review-button {
+    padding: 4px 10px;
+    align-items: center;
+    background: transparent;
+    cursor: pointer;
+    background-color: rgb(255, 87, 87);
+    border: 1px solid rgb(199, 192, 192);
+    border-radius: 3px;
+    transition: all 0.3 ease 0s;
+    color: white;
+}
+
+.no-delete-review-button:hover {
+    box-shadow: 1px 1px 2px grey;
 }
