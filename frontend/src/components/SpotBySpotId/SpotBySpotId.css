@@ -28,6 +28,7 @@
     justify-content: space-between;
     /* border: 1px solid green */
     width: 100%;
+    margin-top: 10px;
 }
 
 .hosted-to-reserve {
@@ -54,6 +55,7 @@
     border-radius: 3px;
     padding: 10px 10px;
 }
+
 
 .image-box {
     width: 80%;
@@ -109,14 +111,34 @@
     box-shadow: 1px 1px 2px grey;
 }
 
+.reserve-button:disabled {
+    background-color: white;
+    color: lightgray;
+}
+
 .review-detail {
     /* border: 1px solid black; */
     display: flex;
     flex-direction: column;
     gap: 4px;
+    margin: 20px 10px;
 }
 
 .review-review {
     margin-bottom: 10px;
+    margin-top: 5px;
     overflow-wrap: break-word
+}
+
+.icon-review {
+    margin-bottom: 20px;
+}
+
+#fa-star-review {
+    color: rgb(255, 87, 87);
+}
+
+.review-date {
+    font-size: small;
+    font-weight: bold;
 }

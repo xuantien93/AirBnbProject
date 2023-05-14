@@ -72,15 +72,17 @@ const SpotBySpotId = () => {
                             <div className="price-review">
 
                                 <p><span className="price">${Number(spot.price).toFixed(2)}</span> per night</p>
-                                {reviews.length ? <h5><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
-                                    : <h5><i className="fa-solid fa-star"></i> New</h5>
+                                {reviews.length ? <h5><i id="fa-star-review" className="fa-solid fa-star review"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h5>
+                                    : <h5><i id="fa-star-review" className="fa-solid fa-star review"></i> New</h5>
                                 }
                             </div>
                             {/* <button onClick={handleReserve} className="reserve-button">Reserve</button> */}
-                            <OpenModalButton
+                            {user && user.id !== spot.Owner.id ? < OpenModalButton
                                 buttonText="Reserve"
                                 modalComponent={<CreateBookingModal spot={spot} />}
-                            />
+                            /> : user ?
+                                <button disabled className="reserve-button">Reserve</button>
+                                : <button disabled className="reserve-button">Login to Reserve</button>}
                         </div>
                     </div>
                 </div>
@@ -88,11 +90,11 @@ const SpotBySpotId = () => {
                 <div className="spot-reviews-details">
                     {reviews.length ?
                         <>
-                            <h3><i className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
+                            <h3 className="icon-review"><i id="fa-star-review" className="fa-solid fa-star"></i> {spot.avgStarRating} · {spot.numReviews} {spot.numReviews > 1 ? "reviews" : "review"}</h3>
                             <SpotReviews reviews={reviews} spotId={id} />
                         </>
                         : <>
-                            <h3><i className="fa-solid fa-star"></i> New</h3>
+                            <h3><i id="fa-star-review" className="fa-solid fa-star"></i> New</h3>
                             <SpotReviews reviews={reviews} spotId={id} />
                         </>
                     }

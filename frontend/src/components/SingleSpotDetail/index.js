@@ -39,7 +39,7 @@ const SingleSpotDetail = ({ spot, manage }) => {
                 <span>{spot.city}, </span>
                 <span>{spot.state}</span>
             </div>
-            <span className='star-icon'><i className='fa-solid fa-star'></i> {!spot.avgRating.length ? "New" : spot.avgRating}</span>
+            <span className='star-icon'><i id="fa-star-review" className='fa-solid fa-star'></i> {!spot.avgRating.length ? "New" : spot.avgRating}</span>
             <div><span className='price'>${Number(spot.price).toFixed(2)}</span> night</div>
             {user?.id === spot.ownerId && manage && <div className='update-delete-button'>
                 <button onClick={handleUpdate} className='update-button'>Update</button>

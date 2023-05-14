@@ -48,10 +48,10 @@ const ManageReview = () => {
                                 <h3>{review.Spot.name}</h3>
                                 {/* <p className="review-date">{months[review.createdAt.slice(5, 7)]} {review.createdAt.slice(0, 4)}</p> */}
                                 <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
-                                <p>{review.review}</p>
+                                <p className="review-review">{review.review}</p>
                                 {(review.userId === user?.id) &&
 
-                                    <div>
+                                    <div className="update-delete-review-modal">
                                         <OpenModalButton
                                             buttonText="Update"
                                             modalComponent={<CreateReviewModal spotName={review.Spot.name} reviewSpot={review.Spot} reviewId={review.id} spotId={review.spotId} manageReview={true} />}
