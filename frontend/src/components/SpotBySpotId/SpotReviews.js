@@ -25,7 +25,8 @@ const SpotReviews = ({ reviews, spotId }) => {
 
     const newReviews = reviews.toReversed()
 
-    console.log("this is review", newReviews)
+
+    // console.log("this is review", newReviews)
 
     let months = {
         "01": "January",

@@ -36,7 +36,7 @@
 }
 
 #description-tag {
-    word-break: break-all;
+    /* word-break: break-all; */
     overflow-wrap: break-word;
 }
 
