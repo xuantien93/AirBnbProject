@@ -38,12 +38,18 @@ const ManageSpot = () => {
                 {currentUserSpot.length ?
                     <h1 className="manage-spot-title">Manage your spots</h1> : <h1 className="manage-spot-title">Add your first spot!</h1>
                 }
-                {!currentUserSpot.length && <button
+                {/* {!currentUserSpot.length && <button
                     className="create-new-spot-manage-button"
                     onClick={(e) => history.push(`/spots/new`)}
                 >
                     Create a New Spot
-                </button>}
+                </button>} */}
+                <button
+                    className="create-new-spot-manage-button"
+                    onClick={(e) => history.push(`/spots/new`)}
+                >
+                    Create a New Spot
+                </button>
             </div>
             <div className="current-user-spot">
                 {currentUserSpot.length > 0 && currentUserSpot.map(spot =>
