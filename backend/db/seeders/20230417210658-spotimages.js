@@ -61,11 +61,6 @@ module.exports = {
         preview: false
       },
       {
-        spotId: 2,
-        url: "https://i.imgur.com/JrvK3c8.jpg",
-        preview: false
-      },
-      {
         spotId: 3,
         url: "https://i.imgur.com/rcyq3w4.jpg",
         preview: true
