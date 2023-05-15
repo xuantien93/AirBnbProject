@@ -31,12 +31,23 @@
     margin-top: 10px;
 }
 
+.spot-reviews-details {
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+}
+
+#first-review-p {
+    margin-top: 10px;
+}
+
+
 .hosted-to-reserve {
     width: 60%;
 }
 
 #description-tag {
-    word-break: break-all;
+    /* word-break: break-all; */
     overflow-wrap: break-word;
 }
 

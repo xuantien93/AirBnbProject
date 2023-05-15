@@ -66,7 +66,7 @@ const ManageBooking = () => {
                 </div>)
             })}
             {pastBook.length > 0 && <h2>Your past trips</h2>}
-            <div className="manage-booking-page">
+            <div className="manage-booking-page-2">
                 {pastBook.toReversed().map(booking => {
                     return (<div key={booking.id} className="booking-show">
                         <BookingDetail booking={booking} future={false} />

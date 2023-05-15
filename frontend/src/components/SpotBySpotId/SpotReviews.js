@@ -25,7 +25,9 @@ const SpotReviews = ({ reviews, spotId }) => {
 
     const newReviews = reviews.toReversed()
 
-    console.log("this is review", newReviews)
+
+    // console.log("this is review", newReviews)
+    console.log(spot)
 
     let months = {
         "01": "January",
@@ -48,12 +50,12 @@ const SpotReviews = ({ reviews, spotId }) => {
                 <div>
                     <OpenModalButton
                         buttonText="Post Your Review"
-                        modalComponent={<CreateReviewModal spotId={spotId} />}
+                        modalComponent={<CreateReviewModal spotId={spotId} spot={spot} />}
                     />
                 </div>}
             {!reviews.length && user?.id !== spot.ownerId ?
                 (<div>
-                    <p>Be the first to post a review!</p>
+                    <p id="first-review-p">Be the first to post a review!</p>
                 </div>) :
                 (<div>
                     {newReviews.map(review =>

@@ -6,6 +6,12 @@
     height: 300px;
 }
 
+.create-review-modal>h2 {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
 .submit-review-button-modal {
     color: white;
     background-color: #ff5A5F;
@@ -31,8 +37,8 @@
 .review-modal-text {
     resize: none;
     padding: 5px;
-    width: 350px;
-    height: 100px;
+    width: 100%;
+    /* height: 100px; */
     background-color: rgb(246, 241, 241);
 }
 

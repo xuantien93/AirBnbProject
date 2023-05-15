@@ -2,6 +2,21 @@
     display: flex;
     flex-direction: column;
     padding: 5px 5px;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.manage-booking-page-2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.manage-booking-page-2>h2 {
+    margin: 10px 0px;
+}
+
+.manage-booking-page>h2 {
+    margin: 5px 0px;
 }
 
 .no-booking-yet {
@@ -53,6 +68,10 @@
     cursor: pointer;
 }
 
+.booking-date-container>button {
+    width: 35%;
+}
+
 .booking-date-container-img:hover {
     box-shadow: 1px 1px 10px grey;
     transition: all .4s ease;
@@ -62,6 +81,8 @@
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+    /* border: 1px solid black; */
+    width: 30%;
 }
 
 .booking-date-container {
