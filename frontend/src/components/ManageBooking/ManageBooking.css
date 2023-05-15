@@ -2,6 +2,21 @@
     display: flex;
     flex-direction: column;
     padding: 5px 5px;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.manage-booking-page-2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.manage-booking-page-2>h2 {
+    margin: 10px 0px;
+}
+
+.manage-booking-page>h2 {
+    margin: 5px 0px;
 }
 
 .no-booking-yet {
@@ -51,6 +66,10 @@
     width: 20%;
     object-fit: cover;
     cursor: pointer;
+}
+
+.booking-date-container>button {
+    width: 35%;
 }
 
 .booking-date-container-img:hover {

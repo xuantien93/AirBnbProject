@@ -6,7 +6,7 @@ import "./CreateReviewModal.css"
 import { fetchSingleSpot } from "../../store/spots"
 
 
-const CreateReviewModal = ({ spotId, manageReview, spotName, reviewId, reviewSpot }) => {
+const CreateReviewModal = ({ spot, spotId, manageReview, spotName, reviewId, reviewSpot }) => {
 
     const [review, setReview] = useState("")
     const [stars, setStars] = useState("")
@@ -14,7 +14,7 @@ const CreateReviewModal = ({ spotId, manageReview, spotName, reviewId, reviewSpo
     const { closeModal } = useModal()
     const [activeRating, setActiveRating] = useState(1)
     const user = useSelector(state => state.session.user)
-    console.log(reviewSpot)
+    console.log(spot)
     const dispatch = useDispatch()
 
 
@@ -38,7 +38,7 @@ const CreateReviewModal = ({ spotId, manageReview, spotName, reviewId, reviewSpo
     return (
         <form onSubmit={handleClick}>
             <div className="create-review-modal">
-                {manageReview && <h2>How was your stay {`at ${spotName}`}?</h2>}
+                {manageReview ? <h2>How was your stay {`at ${spotName}`}?</h2> : <h2>How was your stay {`at ${spot.name}`}?</h2>}
                 <textarea
                     className="review-modal-text"
                     placeholder="Leave your review here..."
