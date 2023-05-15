@@ -55,7 +55,7 @@ const SpotReviews = ({ reviews, spotId }) => {
                 </div>}
             {!reviews.length && user?.id !== spot.ownerId ?
                 (<div>
-                    <p>Be the first to post a review!</p>
+                    <p id="first-review-p">Be the first to post a review!</p>
                 </div>) :
                 (<div>
                     {newReviews.map(review =>

@@ -65,7 +65,7 @@ const CreateSpotForm = ({ spot, update }) => {
         if (img4 && !imageExtensions.includes(img4.slice(-4))) {
             error.img4 = "Please make sure your images end with either .png, .jpg, or .jpeg"
         }
-        console.log("this is spot", previewImage.slice(-4))
+        // console.log("this is spot", previewImage.slice(-4))
 
         setErrors(error)
     }, [country, address, state, city, title, description, price, previewImage])
