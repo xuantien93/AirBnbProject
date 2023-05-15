@@ -22,12 +22,23 @@
 .top-navbar {
     text-decoration: none;
     color: red;
+
+}
+
+.top-navbar:hover {
+    text-shadow: 1px 1px 5px rgb(236, 193, 193);
+    transition: all .4s ease;
 }
 
 .top-logo-name {
     text-decoration: none;
     color: rgb(255, 63, 34);
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.top-logo-name:hover {
+    text-shadow: 1px 1px 5px rgb(236, 193, 193);
+    transition: all .4s ease;
 }
 
 .top-container {
@@ -69,6 +80,7 @@
 
 .topright-nav-create-text>button:hover {
     box-shadow: 1px 1px 2px grey;
+    transition: all .4s ease;
 }
 
 .logo {
@@ -124,6 +136,7 @@
 .manage-spots-button:hover {
     box-shadow: 1px 1px 2px grey;
     background-color: rgb(244, 244, 244);
+    transition: all .4s ease;
 }
 
 .manage-reviews-button {
@@ -137,6 +150,7 @@
 .manage-reviews-button:hover {
     box-shadow: 1px 1px 2px grey;
     background-color: rgb(244, 244, 244);
+    transition: all .4s ease;
 }
 
 .manage-bookings-button {
@@ -150,6 +164,7 @@
 .manage-bookings-button:hover {
     box-shadow: 1px 1px 2px grey;
     background-color: rgb(244, 244, 244);
+    transition: all .4s ease;
 }
 
 .profile-button-icon {
@@ -166,6 +181,7 @@
 
 .profile-button-icon:hover {
     box-shadow: 1px 1px 2px grey;
+    transition: all .4s ease;
 }
 
 .fa-user-circle {
@@ -224,6 +240,7 @@
 .open-modal-menu>li:hover {
     background-color: rgb(244, 244, 244);
     box-shadow: 1px 1px 2px grey;
+    transition: all .4s ease;
 }
 
 button {
@@ -242,4 +259,5 @@ button {
 .log-out-button:hover {
     box-shadow: 1px 1px 2px grey;
     background-color: rgb(244, 244, 244);
+    transition: all .4s ease;
 }

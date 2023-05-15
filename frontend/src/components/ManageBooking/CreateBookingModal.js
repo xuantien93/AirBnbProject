@@ -49,6 +49,7 @@ const CreateBookingModal = ({ spot }) => {
                 if (error && error.message === "Authentication required") {
                     err.message = "Must logged in to request a booking"
                 }
+
                 if (error && error.startDate) {
                     err.start = error.startDate
                 }
@@ -73,19 +74,23 @@ const CreateBookingModal = ({ spot }) => {
             {submitted && validationErrors.message && <p className="error-text">{validationErrors.message}</p>}
             {submitted && validationErrors.endDate && <p className="error-text">{validationErrors.endDate}</p>}
             <form className="booking-modal-form" onSubmit={handleClick}>
-                <label>Start Date</label>
-                <input type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                ></input>
-                {submitted && validationErrors.start && <p className="error-text">{validationErrors.start}</p>}
-                <label>End Date</label>
-                <input type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                ></input>
-                {submitted && validationErrors.end && <p className="error-text">{validationErrors.end}</p>}
-                <button type="submit">Submit Booking</button>
+                <div className="start-date">
+                    <label>Start Date</label>
+                    <input type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    ></input>
+                    {submitted && validationErrors.start && <p className="error-text">{validationErrors.start}</p>}
+                </div>
+                <div className="end-date">
+                    <label>End Date</label>
+                    <input type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    ></input>
+                    {submitted && validationErrors.end && <p className="error-text">{validationErrors.end}</p>}
+                </div>
+                <button className="submit-booking" type="submit">Submit Booking</button>
             </form>
         </div>
     )

@@ -41,6 +41,12 @@
     cursor: pointer;
 }
 
+.booking-detail-city-name>h3:hover {
+    text-shadow: 1px 1px 5px rgb(236, 193, 193);
+    transition: all .4s ease;
+    border: none;
+}
+
 .booking-detail-container>img {
     width: 20%;
     object-fit: cover;
@@ -48,7 +54,8 @@
 }
 
 .booking-date-container-img:hover {
-    box-shadow: 1px 1px 2px grey;
+    box-shadow: 1px 1px 10px grey;
+    transition: all .4s ease;
 }
 
 .booking-detail {
@@ -60,4 +67,41 @@
 .booking-date-container {
     display: flex;
     flex-direction: column;
+}
+
+.booking-modal-container {
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.booking-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.submit-booking {
+    background: transparent;
+    cursor: pointer;
+    background-color: rgb(255, 87, 87);
+    border: 0.5px solid rgb(199, 192, 192);
+    border-radius: 3px;
+    padding: 5px 5px 5px 5px;
+    /* transition: all 0.3 ease 0s; */
+    margin-top: 0.5rem;
+    color: white;
+}
+
+.submit-booking:hover {
+    box-shadow: 1px 1px 2px grey;
+}
+
+.start-date>label {
+    margin-right: 10px;
+}
+
+.end-date>label {
+    margin-right: 16px;
 }

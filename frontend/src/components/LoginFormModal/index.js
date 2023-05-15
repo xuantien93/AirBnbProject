@@ -33,12 +33,12 @@ function LoginFormModal() {
     let errorsLength = Object.values(errors).length
 
     return (
-        <div className={errorsLength ? "failed-login" : "normal-login"}>
+        <div className="normal-login">
             <h1>Log In</h1>
             {errors.credential && (
                 <p className="error-text">{errors.credential}</p>
             )}
-            <form onSubmit={handleSubmit} className={errorsLength ? "failed-form" : "normal-form"}>
+            <form onSubmit={handleSubmit} className="normal-form">
                 <label>
                     Username or Email
                     <input
@@ -63,7 +63,7 @@ function LoginFormModal() {
                 </label>
                 <button disabled={(credential.length < 4) || (password.length < 6)} type="submit" className={"login-button"}>Log In</button>
             </form>
-            <button onClick={demoUser} className={errorsLength ? "failed-demo-button" : "normal-demo-button"}>Demo User</button>
+            <button onClick={demoUser} className="normal-demo-button">Demo User</button>
         </div >
     );
 }

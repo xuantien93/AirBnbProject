@@ -25,15 +25,20 @@
     flex-direction: column;
 }
 
+
 .create-spot-label {
     display: flex;
     flex-direction: column;
     width: 100%;
     background-color: rgb(218, 240, 247);
+    border: none;
+    padding: 3px 3px;
 }
 
 .create-spot-input {
     background-color: rgb(218, 240, 247);
+    border: none;
+    padding: 3px 3px;
 }
 
 .city-state-box {
@@ -72,19 +77,28 @@
     margin: 7px 0px;
     width: 100%;
     background-color: rgb(218, 240, 247);
-
+    border: none;
+    padding: 5px 5px;
 }
 
 .create-spot-price {
     background-color: rgb(218, 240, 247);
     width: 97%;
     margin: 7px 0px;
+    border: none;
+    padding: 3px 3px;
+}
+
+.create-spot-title {
+    margin: 20px 0px 5px 0px;
 }
 
 .create-title-label {
     background-color: rgb(218, 240, 247);
     margin: 7px 0px;
     width: 100%;
+    border: none;
+    padding: 3px 3px;
 }
 
 .spot-title {

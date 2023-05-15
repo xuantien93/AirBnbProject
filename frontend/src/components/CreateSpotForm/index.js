@@ -231,7 +231,8 @@ const CreateSpotForm = ({ spot, update }) => {
                     <div className="spot-price-box">
                         <h4>Set a base price for your spot</h4>
                         <p>Competitive pricing can help your listing stand out and rank higher in search results</p>
-                        $ <input
+                        $
+                        <input
                             type="text"
                             value={price}
                             className="create-spot-price"

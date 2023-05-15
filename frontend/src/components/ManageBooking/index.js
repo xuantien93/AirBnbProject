@@ -60,12 +60,12 @@ const ManageBooking = () => {
                     </button>
                 </div>
             )}
-            {futureBook.toReversed().map(booking => {
+            {futureBook.length > 0 && futureBook.toReversed().map(booking => {
                 return (<div key={booking.id} className="booking-show">
                     <BookingDetail booking={booking} future={true} />
                 </div>)
             })}
-            {pastBook.length && <h2>Your past trips</h2>}
+            {pastBook.length > 0 && <h2>Your past trips</h2>}
             <div className="manage-booking-page">
                 {pastBook.toReversed().map(booking => {
                     return (<div key={booking.id} className="booking-show">
