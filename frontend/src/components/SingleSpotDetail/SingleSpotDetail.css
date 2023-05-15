@@ -9,6 +9,7 @@
 }
 
 
+
 .preview-image {
     width: 230px;
     height: 200px;
@@ -27,6 +28,23 @@
     position: absolute;
     z-index: 1;
     cursor: pointer;
+}
+
+.city-state-star {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.city-state-star-price {
+    display: flex;
+    flex-direction: column;
+}
+
+.city-state {
+    display: flex;
+    overflow-wrap: break-word;
 }
 
 .preview-image {
@@ -63,6 +81,20 @@
     padding: 5px 5px;
     margin: 5px 0px;
     box-shadow: 1px 2px 2px;
+}
+
+.delete-yes-button {
+    background-color: rgb(255, 87, 87);
+}
+
+.delete-yes-button:hover {
+    box-shadow: 1px 1px 2px grey;
+    transition: all 0.3 ease 0s;
+}
+
+.delete-no-button:hover {
+    box-shadow: 1px 1px 2px grey;
+    transition: all 0.3 ease 0s;
 }
 
 .update-delete-button {

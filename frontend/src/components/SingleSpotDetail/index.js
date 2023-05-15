@@ -35,12 +35,16 @@ const SingleSpotDetail = ({ spot, manage }) => {
                     <img src={previewImg} alt='' className='preview-image' title={spot.name}></img>
                 </div>
             </div>
-            <div className='city-state'>
-                <span>{spot.city}, </span>
-                <span>{spot.state}</span>
+            <div className="city-state-star-price">
+                <div className='city-state-star'>
+                    <div className="city-state">
+                        <span>{spot.city}</span>
+                        <span>, {spot.state}</span>
+                    </div>
+                    <span className='star-icon'><i id="fa-star-review" className='fa-solid fa-star'></i> {!spot.avgRating.length ? "New" : spot.avgRating}</span>
+                </div>
+                <div><span className='price'>${Number(spot.price).toFixed(2)}</span> night</div>
             </div>
-            <span className='star-icon'><i id="fa-star-review" className='fa-solid fa-star'></i> {!spot.avgRating.length ? "New" : spot.avgRating}</span>
-            <div><span className='price'>${Number(spot.price).toFixed(2)}</span> night</div>
             {user?.id === spot.ownerId && manage && <div className='update-delete-button'>
                 <button onClick={handleUpdate} className='update-button'>Update</button>
                 <OpenModalButton
