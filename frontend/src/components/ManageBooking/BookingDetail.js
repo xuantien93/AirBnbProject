@@ -16,12 +16,12 @@ const BookingDetail = ({ booking, future }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchSpots()).then(() => dispatch(loadReviewThunk()))
+        dispatch(fetchSpots())
     }, [dispatch])
     const user = useSelector(state => state.session.user)
     const reviewObj = useSelector(state => state.reviews.spot)
     const reviews = Object.values(reviewObj)
-    console.log("this is review ", reviews)
+    // console.log("this is review ", reviews)
     // console.log("this is booking", booking)
 
 
