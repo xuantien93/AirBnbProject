@@ -45,7 +45,7 @@ const CreateSpotForm = ({ spot, update }) => {
         if (!title) error.title = 'Name is required';
         if (description.length < 30) error.description = 'Description needs a minimum of 30 characters';
         if (!price) error.price = 'Price is required';
-        if (+price < 0) error.price = "Price must be greater an 0";
+        if (+price < 0) error.price = "Price must be greater than 0";
         if (!previewImage && !update) error.prevImg = 'Preview Image is required';
         if (!(+price)) error.price = 'Price must be valid number'
 
