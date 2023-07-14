@@ -73,7 +73,7 @@ const ManageReview = () => {
                                         />
                                         <OpenModalButton
                                             buttonText="Delete"
-                                            modalComponent={<DeleteReviewModal reviewId={review.id} spotId={review.spotId} manageReview={true} />}
+                                            modalComponent={<DeleteReviewModal reviewId={review.id} spotId={review.spotId} manageReview={true} reviewsObj={reviewsObj} />}
                                         />
                                     </div>
                                 }

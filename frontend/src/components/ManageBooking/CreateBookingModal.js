@@ -43,7 +43,7 @@ const CreateBookingModal = ({ spot }) => {
             .catch(async (res) => {
                 let error = await res.json()
                 error = error.errors
-                console.log(error)
+                // console.log(error)
 
                 let err = {}
                 if (error && error.message === "Authentication required") {

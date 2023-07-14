@@ -37,7 +37,7 @@ const ManageBooking = () => {
         const curBook = new Date(booking.startDate)
         return curBook >= dateNow
     })
-    console.log("this is future book", futureBook)
+    // console.log("this is future book", futureBook)
 
     let pastBook = bookings.filter(booking => {
         const curBook = new Date(booking.endDate)

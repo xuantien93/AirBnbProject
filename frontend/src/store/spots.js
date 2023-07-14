@@ -93,7 +93,7 @@ export const updateSpotThunk = (payload) => async dispatch => {
         body: JSON.stringify({ id, address, city, state, country, lat, lng, name, description, price })
     })
     if (response.ok) {
-        console.log(response)
+        // console.log(response)
         const spot = await response.json()
         dispatch(updateSpot(spot))
         return spot
