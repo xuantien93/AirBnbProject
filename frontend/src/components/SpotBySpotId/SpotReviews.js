@@ -62,7 +62,7 @@ const SpotReviews = ({ reviews, spotId }) => {
                     (
                         <div key={review.id}>
                             <div className="review-detail">
-                                <h3>{review.User.firstName} {review.User.lastName}</h3>
+                                <h3>{review.User?.firstName} {review.User?.lastName}</h3>
                                 {/* <p className="review-date">{months[review.createdAt.slice(5, 7)]} {review.createdAt.slice(0, 4)}</p> */}
                                 <p className="review-date">{new Date(review.createdAt).toLocaleDateString()}</p>
                                 <p className="review-review">{review.review}</p>

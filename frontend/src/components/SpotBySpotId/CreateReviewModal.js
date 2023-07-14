@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useModal } from "../../context/Modal"
 import { useDispatch, useSelector } from "react-redux"
 import { createReviewThunk, updateReviewThunk } from "../../store/review"
@@ -8,16 +8,25 @@ import { fetchSingleSpot } from "../../store/spots"
 
 const CreateReviewModal = ({ spot, spotId, manageReview, spotName, reviewId, reviewSpot }) => {
 
+
+
     const [review, setReview] = useState("")
     const [stars, setStars] = useState("")
+    const [activeRating, setActiveRating] = useState(1)
 
     const { closeModal } = useModal()
-    const [activeRating, setActiveRating] = useState(1)
     const user = useSelector(state => state.session.user)
-    console.log(spot)
     const dispatch = useDispatch()
+    const reviewsObj = useSelector(state => state.reviews.spot)
 
-
+    useEffect(() => {
+        if (manageReview) {
+            setReview(reviewsObj[reviewId].review);
+            setStars(reviewsObj[reviewId].stars)
+            setActiveRating(reviewsObj[reviewId].stars)
+            // console.log(reviewsObj[reviewId]);
+        }
+    }, [manageReview]);
 
     const handleClick = async (e) => {
         e.preventDefault()
