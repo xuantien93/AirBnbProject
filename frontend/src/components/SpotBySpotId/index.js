@@ -42,7 +42,7 @@ const SpotBySpotId = () => {
     //     history.push(`/bookings/current`)
     // }
 
-    // console.log("this is spot", spot)
+    console.log("this is spot", spot)
 
     return (
 
@@ -77,12 +77,22 @@ const SpotBySpotId = () => {
                                 }
                             </div>
                             {/* <button onClick={handleReserve} className="reserve-button">Reserve</button> */}
-                            {user && user.id !== spot.Owner.id ? < OpenModalButton
-                                buttonText="Reserve"
-                                modalComponent={<CreateBookingModal spot={spot} />}
-                            /> : user ?
-                                <button disabled className="reserve-button">Reserve</button>
-                                : <button disabled className="reserve-button">Login to Reserve</button>}
+                            {user ? (
+                                user.id !== spot.ownerId ? (
+                                    <OpenModalButton
+                                        buttonText="Reserve"
+                                        modalComponent={<CreateBookingModal spot={spot} />}
+                                    />
+                                ) : (
+                                    <button disabled className="reserve-button">
+                                        You're the Owner
+                                    </button>
+                                )
+                            ) : (
+                                <button disabled className="reserve-button">
+                                    Login to Reserve
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
