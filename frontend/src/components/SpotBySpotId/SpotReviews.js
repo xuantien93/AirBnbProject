@@ -27,7 +27,7 @@ const SpotReviews = ({ reviews, spotId }) => {
 
 
     // console.log("this is review", newReviews)
-    console.log(spot)
+    // console.log(spot)
 
     let months = {
         "01": "January",

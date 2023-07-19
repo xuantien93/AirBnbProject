@@ -34,7 +34,7 @@ const BookingDetail = ({ booking, future }) => {
         previewImg = previewImg.previewImage
     }
     let userSpotReviewObj = reviews.find(review => review.spotId === booking.spotId)
-    console.log('this is user spot review', userSpotReviewObj)
+    // console.log('this is user spot review', userSpotReviewObj)
     let spot = booking.Spot
     let startDate = booking.startDate
     let endDate = booking.endDate
