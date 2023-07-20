@@ -42,7 +42,7 @@ const SpotBySpotId = () => {
     //     history.push(`/bookings/current`)
     // }
 
-    console.log("this is spot", spot)
+    // console.log("this is spot", spot)
 
     return (
 

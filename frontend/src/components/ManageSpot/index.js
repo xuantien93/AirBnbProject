@@ -30,7 +30,7 @@ const ManageSpot = () => {
     if (loading) {
         return <div>Loading...</div>
     }
-    console.log(currentUserSpot)
+    // console.log(currentUserSpot)
 
     return (
         <div className="manage-spot-page">

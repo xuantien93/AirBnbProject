@@ -48,12 +48,14 @@ const ManageReview = () => {
         "11": "November",
         "12": "December"
     }
+    const myReviews = reviews.filter(review => review.user_id === user.id)
+
 
 
     return (
         <div className="manage-spot-page">
             <div className="manage-spot-header">
-                {reviews.length ?
+                {myReviews.length ?
                     <h1 className="manage-spot-title">Manage your reviews</h1> : <h1 className="manage-spot-title">You currently have no reviews</h1>
                 }
                 <div>
